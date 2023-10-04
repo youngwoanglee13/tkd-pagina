@@ -16,11 +16,11 @@ jobs:
       with:
         node-version: '16.x'
     - run: npm install
-    - run: npm run prod
     - name: Execute script.js
-      run: node angular-env-file-creator.js
+      run: node src/scripts/angular-env-file-creator.js
       env:
         PROD_ENV_CONFIG: ${{ secrets.PROD_ENV_CONFIG }}
+    - run: npm run prod
     - name: Deploy to Firebase
       run: |
         echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > "$HOME"/gcp-key.json
