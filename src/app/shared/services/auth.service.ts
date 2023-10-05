@@ -7,13 +7,13 @@ import {Auth, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 export class AuthService {
 
   constructor(private auth: Auth) { }
-  login({email, password}:any) {
+  singIn({email, password}:any) {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
-  logout() {
+  singOut() {
     return signOut(this.auth);
   }
-  isSignedIn() {
+  isLoggedIn() {
     return this.auth.currentUser ? true : false;
   }
 }
