@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-auth',
@@ -14,9 +14,9 @@ export class AuthComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
    }
-  login() {
+  singIn() {
     // console.log(this.auth.login(this.authForm.value))
-    this.auth.login(this.authForm.value).then((res:any)=>{
+    this.auth.singIn(this.authForm.value).then((res:any)=>{
       console.log(res)
     }).catch((err:any)=>{
       console.log(err)
