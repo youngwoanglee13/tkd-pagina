@@ -1,0 +1,95 @@
+<div class="pt-3 pb-2 mb-3 border-bottom">
+    <h2 class="h2">Add Student</h2>
+</div>
+    <form [formGroup]="studentForm" (ngSubmit)="submitStudentData()" novalidate>
+        <div class="row">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label>Nombre</label>
+                    <input
+                    type="text"
+                    formControlName="firstName"
+                    class="form-control"
+                    required
+                    />
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Segundo Nombre</label>
+                    <input type="text" formControlName="middleName" class="form-control" />
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Apellido</label>
+                    <input type="text" formControlName="lastName" class="form-control" required/>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Segundo Apellido</label>
+                    <input type="text" formControlName="secondLastName" class="form-control" />
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Email</label>
+                    <input
+                    type="email"
+                    formControlName="email"
+                    class="form-control"
+                    />
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" formControlName="birthdate" class="form-control" required/>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Sexo</label>
+                    <select formControlName="gender" class="form-control" required>
+                        <option value="m">Masculino</option>
+                        <option value="f">Femenino</option>
+                        <option value="o">Otro</option>
+                    </select>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Grado</label>
+                    <select formControlName="grade" class="form-control" required>
+                        <option value="1">10° KUP – Blanco</option>
+                        <option value="2">9° KUP – Blanco-Amarillo</option>
+                        <option value="3">8° KUP – Amarillo</option>
+                        <option value="4">7° KUP – Amarillo-Verde</option>
+                        <option value="5">6° KUP – Verde</option>
+                        <option value="6">5° KUP – Verde-Azul</option>
+                        <option value="7">4° KUP – Azul</option>
+                        <option value="8">3° KUP – Azul-Rojo</option>
+                        <option value="9">2° KUP – Rojo</option>
+                        <option value="10">1° KUP – Rojo-Negro</option>
+                        <option value="11">1º DAN</option>
+                        <option value="11">2º DAN</option>
+                        <option value="12">3º DAN</option>
+                        <option value="13">4º DAN</option>
+                        <option value="14">5º DAN</option>
+                        <option value="15">6º DAN</option>
+                        <option value="16">7º DAN</option>
+                        <option value="17">8º DAN</option>
+                        <option value="18">9º DAN</option>
+                        <option value="19">10º DAN</option>
+                    </select>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>CI</label>
+                    <input type="text" formControlName="CI" class="form-control"/>
+                </div>
+            </div>  
+            <div class="form-group text-right">
+            <button
+                type="button"
+                class="btn btn-secondary gap-right"
+                (click)="ResetForm()"
+            >
+                Reset
+            </button>
+            <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="!studentForm.valid"
+            >
+                Add Student
+            </button>
+            </div>
+        </div>
+    </form>
