@@ -1,50 +1,14 @@
   <app-navbar></app-navbar>
   <div class="grid  text-center">
     <div class="row">
-      <div class="col">
-        <div class="col" >
-          LUNES
+      <div class="col" *ngFor="let day of daysOfWeek; let i = index">
+        <div class="col">
+          {{day}}
         </div>
-        <div *ngFor="let session of trainingSessions">
-          <div class="col btn btn-secondary mb-1" *ngIf="session.dayOfWeek==='Monday'" (click)="selectSession(session.id)">
-            {{(session.startTimeMinutes-(session.startTimeMinutes%60))/60}}:{{session.startTimeMinutes%60}}-{{(session.endTimeMinutes-(session.endTimeMinutes%60))/60}}:{{session.endTimeMinutes%60}} 
+        <div *ngFor="let session of trainingSessions[i]">
+          <div class="col btn btn-secondary mb-1" (click)="selectSession(session.id)">
+            {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}}
           </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="col">
-          MARTES
-        </div>
-        <div *ngFor="let session of trainingSessions">
-          <div class="col btn btn-secondary mb-1" *ngIf="session.dayOfWeek==='Tuesday'" (click)="selectSession(session.id)">
-            {{(session.startTimeMinutes-(session.startTimeMinutes%60))/60}}:{{session.startTimeMinutes%60}}-{{(session.endTimeMinutes-(session.endTimeMinutes%60))/60}}:{{session.endTimeMinutes%60}}           </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="col">
-          MIERCOLES
-        </div>
-        <div *ngFor="let session of trainingSessions">
-          <div class="col btn btn-secondary mb-1" *ngIf="session.dayOfWeek==='Wednesday'" (click)="selectSession(session.id)">
-            {{(session.startTimeMinutes-(session.startTimeMinutes%60))/60}}:{{session.startTimeMinutes%60}}-{{(session.endTimeMinutes-(session.endTimeMinutes%60))/60}}:{{session.endTimeMinutes%60}}           </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="col">
-          JUEVES
-        </div>
-        <div *ngFor="let session of trainingSessions">
-          <div class="col btn btn-secondary mb-1" *ngIf="session.dayOfWeek==='Thursday'" (click)="selectSession(session.id)">
-            {{(session.startTimeMinutes-(session.startTimeMinutes%60))/60}}:{{session.startTimeMinutes%60}}-{{(session.endTimeMinutes-(session.endTimeMinutes%60))/60}}:{{session.endTimeMinutes%60}}           </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="col">
-          VIERNES
-        </div>
-        <div *ngFor="let session of trainingSessions">
-          <div class="col btn btn-secondary mb-1" *ngIf="session.dayOfWeek==='Friday'" (click)="selectSession(session.id)">
-            {{(session.startTimeMinutes-(session.startTimeMinutes%60))/60}}:{{session.startTimeMinutes%60}}-{{(session.endTimeMinutes-(session.endTimeMinutes%60))/60}}:{{session.endTimeMinutes%60}}           </div>
         </div>
       </div>
     </div>

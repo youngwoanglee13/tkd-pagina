@@ -1,52 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
+import trainingSession from 'src/app/shared/interfaces/training-session.interface';
 
 @Component({
   selector: 'app-training-session-list',
   templateUrl: './training-session-list.component.html',
   styleUrls: ['./training-session-list.component.scss']
 })
-export class TrainingSessionListComponent {
-  trainingSessions = [];
-  constructor() {
-    this.trainingSessions = [
-      {
-        id: '1',
-        dayOfWeek: 'Monday',
-        endTimeMinutes: 743,
-        startTimeMinutes: 613
-      },
-      {
-        id: '2',
-        dayOfWeek: 'Tuesday',
-        endTimeMinutes: 743,
-        startTimeMinutes: 613
-      },
-      {
-        id: '3',
-        dayOfWeek: 'Wednesday',
-        endTimeMinutes: 743,
-        startTimeMinutes: 613
-      },
-      {
-        id: '4',
-        dayOfWeek: 'Thursday',
-        endTimeMinutes: 743,
-        startTimeMinutes: 613
-      },
-      {
-        id: '5',
-        dayOfWeek: 'Friday',
-        endTimeMinutes: 743,
-        startTimeMinutes: 613
-      },{
-        id: '6',
-        dayOfWeek: 'Friday',
-        endTimeMinutes: 743,
-        startTimeMinutes: 613
-      }
-    ];
+export class TrainingSessionListComponent implements OnInit {
+  trainingSessions = [[], [], [], [], []];
+  daysOfWeek = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
+  session : trainingSession;
+  constructor(private trainingSessionService: TrainingSessionService) { }
+  ngOnInit(): void {
+    this.getTrainingSessions();
   }
-  selectSession(id) {
-    console.log('id', id);
+  async getTrainingSessions() {
+    await this.trainingSessionService.getTrainingSessions().subscribe(
+      (sessions) => {
+          this.orderByDay(sessions);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+  orderByDay(trainingSessions) {
+    for (let session of trainingSessions){
+      if(session.dayOfWeek=="Monday") this.trainingSessions[0].push(session);
+      if(session.dayOfWeek=="Tuesday") this.trainingSessions[1].push(session);
+      if(session.dayOfWeek=="Wednesday") this.trainingSessions[2].push(session);
+      if(session.dayOfWeek=="Thursday") this.trainingSessions[3].push(session);
+      if(session.dayOfWeek=="Friday") this.trainingSessions[4].push(session);
+    }
+    for (let day of this.trainingSessions){
+      day.sort((a, b) => (parseInt(a.startTime) > parseInt(b.startTime)) ? 1 : -1);
+    }
   }
 }
