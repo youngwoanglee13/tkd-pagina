@@ -1,1 +1,53 @@
-<p>student-list works!</p>
+<div
+  class="container-fluid d-flex justify-content-between align-items-center"
+>
+  <h2 class="h2">Students List</h2>
+  <a
+    routerLink="/register-student"
+    class="btn btn-success"
+  >
+    Add Student
+  </a>
+</div>
+<div class="pricing-header mx-auto">
+  <div class="table-responsive">
+    <table
+      class="table table-bordered table-responsive-sm table-responsive-md table-responsive-lg"
+    >
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Grado</th>
+          <th scope="col">Fecha Nacimiento</th>
+          <th class="text-center" scope="col">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let student of students
+              | paginate: { itemsPerPage: 4, currentPage: p };
+            let i = index
+          "
+        >
+          <td><a routerLink="/students/{{ student.$id }}">{{ student.firstName }} {{ student.lastName }}</a></td>
+          <td>{{ student.grade }}</td>
+          <td>{{ student.birthdate }}</td>
+          <td class="text-center action-block">
+            <span
+              class="mr-2 btn btn-outline-primary btn-sm"
+              routerLink="/edit-student/{{ student.$key }}"
+              >Edit</span
+            >
+            <span
+              class="btn btn-outline-danger btn-sm"
+              (click)="deleteStudent(student)"
+              >Delete</span
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>

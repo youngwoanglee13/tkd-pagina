@@ -1,14 +1,12 @@
 export interface Student {
-    $key: string;
+    $id: string;
     firstName: string;
-    middleName?: string;
+    middleName: string;
     lastName: string;
-    secondLastName?: string;
-    email?: string;
+    secondLastName: string;
+    email: string;
     birthdate: string;
     gender: string;
     grade: number;
-    CI?: string;
-    phoneContactNumbers?: { context: string; number: string }[];
-    profilePicture?: string;
+    CI: string;
 }

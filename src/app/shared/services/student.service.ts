@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../interfaces/student';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { Firestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,21 @@ export class StudentService {
     }
   }
   // Fetch all students
-  getStudents() {
-    const studentsCollectionRef = collection(this.firestore, 'students');
-    return collectionData(studentsCollectionRef);
+  getStudents(): Observable<Student[]>  {
+    const querySnapshot = getDocs(collection(this.firestore, "students"));
+    // convert to observable
+    return new Observable(observer => {
+      querySnapshot.then((querySnapshot) => {
+        const students: Student[] = [];
+        querySnapshot.forEach((doc) => {
+          const student = doc.data();
+          console.log(student)
+          student.$id = doc.id;
+          students.push(student as Student);
+        });
+        observer.next(students);
+      });
+    });
   }
   // Fetch single student
   getStudent(studentId: string) {
@@ -30,7 +43,7 @@ export class StudentService {
   }
   // Update student
   updateStudent(student: Student) {
-    const studentDocRef = doc(this.firestore, 'students', student.$key);
+    const studentDocRef = doc(this.firestore, 'students', student.$id);
     updateDoc(studentDocRef, 
       {
         firstName: student.firstName,
@@ -41,9 +54,7 @@ export class StudentService {
         birthdate: student.birthdate,
         gender: student.gender,
         grade: student.grade,
-        CI: student.CI,
-        phoneContactNumbers: student.phoneContactNumbers,
-        profilePicture: student.profilePicture
+        CI: student.CI
       });
   }
   // Delete student
