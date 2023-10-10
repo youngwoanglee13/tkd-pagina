@@ -15,6 +15,7 @@ import { StudentListComponent } from './student/student-list/student-list.compon
 import { StudentComponent } from './student/student/student.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr'
+import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ToastrModule } from 'ngx-toastr'
     AddStudentComponent,
     EditStudentComponent,
     StudentListComponent,
-    StudentComponent
+    StudentComponent,
+    TrainingSessionListComponent
   ],
   imports: [  
     BrowserModule,
