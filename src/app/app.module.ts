@@ -9,12 +9,14 @@ import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AuthComponent } from './auth/auth.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    NavbarComponent
+    NavbarComponent,
+    TrainingSessionListComponent
   ],
   imports: [  
     BrowserModule,
