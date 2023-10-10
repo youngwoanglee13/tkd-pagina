@@ -9,6 +9,12 @@ import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AuthComponent } from './auth/auth.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AddStudentComponent } from './student/add-student/add-student.component';
+import { EditStudentComponent } from './student/edit-student/edit-student.component';
+import { StudentListComponent } from './student/student-list/student-list.component';
+import { StudentComponent } from './student/student/student.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr'
 import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
 
 @NgModule({
@@ -16,6 +22,10 @@ import { TrainingSessionListComponent } from './schedule/training-session-list/t
     AppComponent,
     AuthComponent,
     NavbarComponent,
+    AddStudentComponent,
+    EditStudentComponent,
+    StudentListComponent,
+    StudentComponent,
     TrainingSessionListComponent
   ],
   imports: [  
@@ -23,6 +33,8 @@ import { TrainingSessionListComponent } from './schedule/training-session-list/t
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
