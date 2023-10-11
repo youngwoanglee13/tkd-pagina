@@ -11,9 +11,6 @@ import { ToastrService } from 'ngx-toastr';
 export class StudentListComponent implements OnInit {
   p: number = 1;
   students: Student[];
-  hideWhenNoStudent: boolean = false;
-  noData: boolean = false;
-  preLoader: boolean = true;
   
   constructor(
     public studentApi: StudentService,
@@ -26,9 +23,7 @@ export class StudentListComponent implements OnInit {
   async getStudents() {
     await this.studentApi.getStudents().subscribe(
       (students) => {
-        console.log("7894iuj");
         this.students = students;
-        console.log(students);
       },
       error => console.log(error)
     );
