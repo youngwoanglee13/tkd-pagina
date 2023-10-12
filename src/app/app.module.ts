@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr'
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
+import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TrainingSessionListComponent } from './schedule/training-session-list/t
     EditStudentComponent,
     StudentListComponent,
     StudentComponent,
-    TrainingSessionListComponent
+    TrainingSessionListComponent,
+    TrainingSessionComponent
   ],
   imports: [  
     BrowserModule,

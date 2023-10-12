@@ -15,52 +15,21 @@ export class TrainingSessionService {
         const trainingSession: trainingSession[] = [];
         querySnapshot.forEach((doc) => {
           const session = doc.data();
-          session.$id = doc.id;
+          session.id = doc.id;
           trainingSession.push(session as trainingSession);
         });
         observer.next(trainingSession);
       });
     });
   }
-  putSessions(){
-    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-    for (let day of daysOfWeek){
-      let trainingSessions = [
-        {
-          dayOfWeek: day,
-          endTime: "1600",
-          startTime: "1700"
-        },
-        {
-          dayOfWeek: day,
-          endTime: "1700",
-          startTime: "1800"
-        },
-        {
-          dayOfWeek: day,
-          endTime: "1800",
-          startTime: "1900"
-        },
-        {
-          dayOfWeek: day,
-          endTime: "1900",
-          startTime: "2000"
-        },
-        {
-          dayOfWeek: day,
-          endTime: "2000",
-          startTime: "2100"
-        },{
-          dayOfWeek: day,
-          endTime: "1500",
-          startTime: "1600"
-        }
-      ];
-      for (let session of trainingSessions){
-        addDoc(collection(this.firestore, "training_sessions"), session);
-      } 
-    }
-    
-    
+  getTrainingSession(id): Observable<trainingSession> {
+    const q = doc(this.firestore, "training_sessions", id);
+    return new Observable(observer => {
+      onSnapshot(q, (doc) => {
+        const session = doc.data();
+        session.id = doc.id;
+        observer.next(session as trainingSession);
+      });
+    });
   }
 }

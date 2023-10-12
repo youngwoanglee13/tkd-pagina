@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="session">
+    <div class="container">
+        <p class="text-center">Turno {{session.dayOfWeek}}</p>
+        <p class="text-center">{{session.startTime}} - {{session.endTime}}</p>
+    </div>
+    <div class="container">
+        <p class="text-center">{{students.length}} Alumnos</p>
+        <ol class="list-group list-group-numbered ">
+            <li class="list-group-item list-group-item" *ngFor="let student of students">
+                {{student.firstName}} {{student.middleName}} {{student.lastName}} {{student.secondLastName}}
+            </li>
+        </ol>
+    </div>
+</div>

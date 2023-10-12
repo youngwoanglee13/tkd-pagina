@@ -6,6 +6,7 @@ import { StudentListComponent } from './student/student-list/student-list.compon
 import { EditStudentComponent } from './student/edit-student/edit-student.component';
 import { StudentComponent } from './student/student/student.component';
 import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
+import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
 
 const routes: Routes = [
   { path : '', redirectTo: '/singin', pathMatch: 'full' },
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'view-students', component: StudentListComponent },
   { path: 'view-students/:id', component: StudentComponent },
   { path: 'edit-student/:id', component: EditStudentComponent },
-  { path : 'schedule', component: TrainingSessionListComponent}
+  { path : 'schedule', component: TrainingSessionListComponent},
+  { path : 'session/:id', component: TrainingSessionComponent}
 ];
 
 @NgModule({
