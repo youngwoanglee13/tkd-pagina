@@ -1,25 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent implements  OnInit {
   authForm : FormGroup ;
-  constructor(private auth: AuthService,  private formBuilder: FormBuilder) {
+  constructor(private auth: AuthService,  private formBuilder: FormBuilder, private router: Router) {
     this.authForm = this.formBuilder.group({
       email: ['',[Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
    }
-  singIn() {
-    // console.log(this.auth.login(this.authForm.value))
-    this.auth.singIn(this.authForm.value).then((res:any)=>{
-      console.log(res)
-    }).catch((err:any)=>{
-      console.log(err)
-    })
+  ngOnInit(): void {
+    if (this.isSignedIn()) {
+      this.goToSchedule()
+    }
+  }
+  async singIn() {
+    await this.auth.singIn(this.authForm.value).then(
+      () => {
+        console.log(this.auth.isLoggedIn())
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+  async goToSchedule() {
+    this.router.navigate(['schedule']);
+  }
+  async isSignedIn() {
+    return await this.auth.isLoggedIn();
   }
 }
