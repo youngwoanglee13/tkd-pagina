@@ -1,15 +1,26 @@
-<div
-  class="container-fluid d-flex justify-content-between align-items-center"
->
-  <h2 class="h2">Students List</h2>
-  <a
-    routerLink="/register-student"
-    class="btn btn-success"
-  >
-    Add Student
-  </a>
-</div>
-<div class="pricing-header mx-auto">
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <div class="row">
+      <div class="col">
+        <a routerLink="/register-student" class="btn btn-success mx-1">Registrar Estudiante</a>
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Código">
+      </div>
+      <div class="col">
+        <a routerLink="/register-student" class="btn btn-primary mx-1">Acceder por Código</a>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Buscar por nombre">
+    <div class="input-group-append">
+      <button class="btn btn-primary">Buscar</button>
+    </div>
+  </div>
   <div class="table-responsive">
     <table
       class="table table-bordered table-responsive-sm table-responsive-md table-responsive-lg"
@@ -19,7 +30,7 @@
           <th scope="col">Nombre</th>
           <th scope="col">Grado</th>
           <th scope="col">Fecha Nacimiento</th>
-          <th class="text-center" scope="col">Edit</th>
+          <th class="text-center" scope="col">Editar</th>
         </tr>
       </thead>
       <tbody>
@@ -37,12 +48,12 @@
             <span
               class="mr-2 btn btn-outline-primary btn-sm"
               routerLink="/edit-student/{{ student.$key }}"
-              >Edit</span
+              >Editar</span
             >
             <span
               class="btn btn-outline-danger btn-sm"
               (click)="deleteStudent(student)"
-              >Delete</span
+              >Eliminar</span
             >
           </td>
         </tr>

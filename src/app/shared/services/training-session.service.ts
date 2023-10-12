@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, updateDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, onSnapshot, collectionData, doc, deleteDoc, updateDoc, getDocs } from '@angular/fire/firestore';
 import trainingSession from '../interfaces/training-session.interface';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -9,9 +9,9 @@ export class TrainingSessionService {
 
   constructor(private firestore: Firestore) { }
   getTrainingSessions(): Observable<trainingSession[]> {
-    const querySnapshot = getDocs(collection(this.firestore, "training_sessions"));
+    const q = collection(this.firestore, "training_sessions");
     return new Observable(observer => {
-      querySnapshot.then((querySnapshot) => {
+      onSnapshot(q, (querySnapshot) => {
         const trainingSession: trainingSession[] = [];
         querySnapshot.forEach((doc) => {
           const session = doc.data();
