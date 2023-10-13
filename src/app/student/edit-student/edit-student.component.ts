@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EditStudentComponent {
   public editForm: FormGroup;
-  private ignore_data: String[] = ["$id", "code", "createdAt", "updatedAt"];
+  private data_fields: String[] = ['firstName', 'middleName', 'lastName', 'secondLastName', 'email', 'birthdate', 'gender', 'grade', 'CI'];
   private  id: string;
   constructor(
     public studentApi: StudentService,
@@ -28,12 +28,13 @@ export class EditStudentComponent {
     this.studentApi
       .getStudent(this.id)
       .subscribe((data) => {
-        for (let key of this.ignore_data) {
+        let data_for_form = {}
+        for (let key of this.data_fields) {
           if (data.hasOwnProperty(key as PropertyKey)) {
-            delete data[key as PropertyKey];
+            data_for_form[key as PropertyKey] = data[key as PropertyKey];
           }
         }
-        this.editForm.setValue(data);
+        this.editForm.setValue(data_for_form);
       });
   }
   updateStudentData() {
