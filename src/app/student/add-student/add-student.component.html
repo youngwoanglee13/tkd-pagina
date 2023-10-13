@@ -13,7 +13,7 @@
         <form [formGroup]="studentForm" (ngSubmit)="submitStudentData()" novalidate>
             <div class="row">
                 <div class="row">
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Nombre</label>
                         <input
                         type="text"
@@ -22,19 +22,19 @@
                         required
                         />
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Segundo Nombre</label>
                         <input type="text" formControlName="middleName" class="form-control" />
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Apellido</label>
                         <input type="text" formControlName="lastName" class="form-control" required/>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Segundo Apellido</label>
                         <input type="text" formControlName="secondLastName" class="form-control" />
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Email</label>
                         <input
                         type="email"
@@ -42,11 +42,11 @@
                         class="form-control"
                         />
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Fecha de Nacimiento</label>
                         <input type="date" formControlName="birthdate" class="form-control" required/>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Sexo</label>
                         <select formControlName="gender" class="form-control" required>
                             <option value="m">Masculino</option>
@@ -54,19 +54,19 @@
                             <option value="o">Otro</option>
                         </select>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>Grado</label>
                         <select formControlName="grade" class="form-control" required>
-                            <option value="10° KUP – Blanco">10° KUP – Blanco</option>
-                            <option value="9° KUP – Blanco-Amarillo">9° KUP – Blanco-Amarillo</option>
-                            <option value="8° KUP – Amarillo">8° KUP – Amarillo</option>
-                            <option value="7° KUP – Amarillo-Verde">7° KUP – Amarillo-Verde</option>
-                            <option value="6° KUP – Verde">6° KUP – Verde</option>
-                            <option value="5° KUP – Verde-Azul">5° KUP – Verde-Azul</option>
-                            <option value="4° KUP – Azul">4° KUP – Azul</option>
-                            <option value="3° KUP – Azul-Rojo">3° KUP – Azul-Rojo</option>
-                            <option value="2° KUP – Rojo">2° KUP – Rojo</option>
-                            <option value="1° KUP – Rojo-Negro">1° KUP – Rojo-Negro</option>
+                            <option value="Blanco">Blanco</option>
+                            <option value="Blanco-Amarillo">Blanco-Amarillo</option>
+                            <option value="Amarillo">Amarillo</option>
+                            <option value="Amarillo-Verde">Amarillo-Verde</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Verde-Azul">Verde-Azul</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Azul-Rojo">Azul-Rojo</option>
+                            <option value="Rojo">Rojo</option>
+                            <option value="Rojo-Negro">Rojo-Negro</option>
                             <option value="1º DAN">1º DAN</option>
                             <option value="2º DAN">2º DAN</option>
                             <option value="3º DAN">3º DAN</option>
@@ -79,7 +79,7 @@
                             <option value="10º DAN">10º DAN</option>
                         </select>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-2">
                         <label>CI</label>
                         <input type="text" formControlName="CI" class="form-control"/>
                     </div>
