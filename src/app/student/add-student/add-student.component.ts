@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../../shared/services/student.service';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-student',
@@ -12,10 +13,10 @@ export class AddStudentComponent implements OnInit {
   constructor(
     public studentApi: StudentService,
     public fb: FormBuilder,
+    private location: Location,
     public toastr: ToastrService
   ) {}
   ngOnInit() {
-    this.studentApi.getStudents();
     this.studenForm();
   }
   studenForm() {
@@ -32,7 +33,7 @@ export class AddStudentComponent implements OnInit {
       ],
       birthdate: ['', [Validators.required]],
       gender: ['', [Validators.required]],
-      grade: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      grade: ['', [Validators.required]],
       CI: ['',],
       // mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     });
@@ -47,5 +48,8 @@ export class AddStudentComponent implements OnInit {
       this.studentForm.controls['firstName'].value + ' successfully added!'
     );
     this.ResetForm();
+  }
+  goBack() {
+    this.location.back();
   }
 }
