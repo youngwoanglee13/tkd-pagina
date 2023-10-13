@@ -56,12 +56,19 @@ export class StudentService {
   }
   // Fetch single student
   getStudent(studentId: string) {
-    const studentDocRef = doc(this.firestore, 'students', studentId);
-    return studentDocRef;
+    // return observable with snapshot of student data object Student
+    return new Observable((observer) => {
+      const studentDocRef = doc(this.firestore, 'students', studentId);
+      onSnapshot(studentDocRef, (doc) => {
+        const student = doc.data();
+        student.$id = doc.id;
+        observer.next(student as Student);
+      });
+    });
   }
   // Update student
-  updateStudent(student: Student) {
-    const studentDocRef = doc(this.firestore, 'students', student.$id);
+  updateStudent(student: Student, studentId: string) {
+    const studentDocRef = doc(this.firestore, 'students', studentId);
     updateDoc(studentDocRef, 
       {
         firstName: student.firstName,

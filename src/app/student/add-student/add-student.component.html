@@ -1,7 +1,14 @@
 <app-navbar></app-navbar>
-<div class="container">
+<div class="container mb-4">
     <div class="pt-3 pb-2 mb-3 border-bottom">
         <h2 class="h2">Registrar Estudiante</h2>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group">
+              <button class="btn btn-sm btn-outline-secondary" (click)="goBack()">
+                Atrás
+              </button>
+            </div>
+          </div>
     </div>
         <form [formGroup]="studentForm" (ngSubmit)="submitStudentData()" novalidate>
             <div class="row">
@@ -50,26 +57,26 @@
                     <div class="col-md-12 mb-3">
                         <label>Grado</label>
                         <select formControlName="grade" class="form-control" required>
-                            <option value="1">10° KUP – Blanco</option>
-                            <option value="2">9° KUP – Blanco-Amarillo</option>
-                            <option value="3">8° KUP – Amarillo</option>
-                            <option value="4">7° KUP – Amarillo-Verde</option>
-                            <option value="5">6° KUP – Verde</option>
-                            <option value="6">5° KUP – Verde-Azul</option>
-                            <option value="7">4° KUP – Azul</option>
-                            <option value="8">3° KUP – Azul-Rojo</option>
-                            <option value="9">2° KUP – Rojo</option>
-                            <option value="10">1° KUP – Rojo-Negro</option>
-                            <option value="11">1º DAN</option>
-                            <option value="11">2º DAN</option>
-                            <option value="12">3º DAN</option>
-                            <option value="13">4º DAN</option>
-                            <option value="14">5º DAN</option>
-                            <option value="15">6º DAN</option>
-                            <option value="16">7º DAN</option>
-                            <option value="17">8º DAN</option>
-                            <option value="18">9º DAN</option>
-                            <option value="19">10º DAN</option>
+                            <option value="10° KUP – Blanco">10° KUP – Blanco</option>
+                            <option value="9° KUP – Blanco-Amarillo">9° KUP – Blanco-Amarillo</option>
+                            <option value="8° KUP – Amarillo">8° KUP – Amarillo</option>
+                            <option value="7° KUP – Amarillo-Verde">7° KUP – Amarillo-Verde</option>
+                            <option value="6° KUP – Verde">6° KUP – Verde</option>
+                            <option value="5° KUP – Verde-Azul">5° KUP – Verde-Azul</option>
+                            <option value="4° KUP – Azul">4° KUP – Azul</option>
+                            <option value="3° KUP – Azul-Rojo">3° KUP – Azul-Rojo</option>
+                            <option value="2° KUP – Rojo">2° KUP – Rojo</option>
+                            <option value="1° KUP – Rojo-Negro">1° KUP – Rojo-Negro</option>
+                            <option value="1º DAN">1º DAN</option>
+                            <option value="2º DAN">2º DAN</option>
+                            <option value="3º DAN">3º DAN</option>
+                            <option value="4º DAN">4º DAN</option>
+                            <option value="5º DAN">5º DAN</option>
+                            <option value="6º DAN">6º DAN</option>
+                            <option value="7º DAN">7º DAN</option>
+                            <option value="8º DAN">8º DAN</option>
+                            <option value="9º DAN">9º DAN</option>
+                            <option value="10º DAN">10º DAN</option>
                         </select>
                     </div>
                     <div class="col-md-12 mb-3">
@@ -90,7 +97,7 @@
                     class="btn btn-success"
                     [disabled]="!studentForm.valid"
                 >
-                    Add Student
+                    Registrar Student
                 </button>
                 </div>
             </div>
