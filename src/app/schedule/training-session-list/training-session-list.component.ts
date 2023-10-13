@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-training-session-list',
@@ -8,10 +9,10 @@ import trainingSession from 'src/app/shared/interfaces/training-session.interfac
   styleUrls: ['./training-session-list.component.scss']
 })
 export class TrainingSessionListComponent implements OnInit {
-  trainingSessions = [[], [], [], [], []];
+  trainingSessions : trainingSession[][] = [[], [], [], [], []];
   daysOfWeek = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
   session : trainingSession;
-  constructor(private trainingSessionService: TrainingSessionService) { }
+  constructor(private trainingSessionService: TrainingSessionService, private router: Router) { }
   ngOnInit(): void {
     this.getTrainingSessions();
   }
@@ -36,5 +37,8 @@ export class TrainingSessionListComponent implements OnInit {
     for (let day of this.trainingSessions){
       day.sort((a, b) => (parseInt(a.startTime) > parseInt(b.startTime)) ? 1 : -1);
     }
+  }
+  selectSession(id){
+    this.router.navigate(['session/'+id]);
   }
 }
