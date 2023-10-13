@@ -1,21 +1,16 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <div class="pt-3 pb-2 mb-3 border-bottom">
-    <div class="row">
-      <div class="col">
-        <a routerLink="/register-student" class="btn btn-success mx-1">Registrar Estudiante</a>
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" placeholder="Código">
-      </div>
-      <div class="col">
-        <a routerLink="/register-student" class="btn btn-primary mx-1">Acceder por Código</a>
-      </div>
+  <div class="input-group mb-2 mt-4">
+    <a routerLink="/register-student" class="btn btn-success mx-1">Registrar Estudiante</a>
+  </div>
+  <div class="input-group mb-2">
+    <input type="text" class="form-control" placeholder="Código de Estudiante">
+    <div class="input-group-append">
+      <button class="btn btn-primary">Acceder</button>
     </div>
   </div>
-  
 
-  <div class="input-group mb-3">
+  <div class="input-group mb-4">
     <input type="text" class="form-control" placeholder="Buscar por nombre">
     <div class="input-group-append">
       <button class="btn btn-primary">Buscar</button>
@@ -37,7 +32,7 @@
         <tr
           *ngFor="
             let student of students
-              | paginate: { itemsPerPage: 4, currentPage: p };
+              | paginate: { itemsPerPage: 6, currentPage: p };
             let i = index
           "
         >
@@ -47,7 +42,7 @@
           <td class="text-center action-block">
             <span
               class="mr-2 btn btn-outline-primary btn-sm"
-              routerLink="/edit-student/{{ student.$key }}"
+              routerLink="/edit-student/{{ student.$id }}"
               >Editar</span
             >
             <span
@@ -60,5 +55,7 @@
       </tbody>
     </table>
   </div>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <pagination-controls (pageChange)="p = $event" 
+  [previousLabel]="'Anterior'"
+  [nextLabel]="'Siguiente'"></pagination-controls>
 </div>
