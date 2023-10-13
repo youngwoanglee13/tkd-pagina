@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Student } from 'src/app/shared/interfaces/student';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
 import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
-
+import { differenceInYears } from 'date-fns';
+import { StudentService } from 'src/app/shared/services/student.service';
 @Component({
   selector: 'app-training-session',
   templateUrl: './training-session.component.html',
@@ -11,9 +12,10 @@ import { TrainingSessionService } from 'src/app/shared/services/training-session
 })
 export class TrainingSessionComponent implements OnInit {
   session : trainingSession;
-  students : Student[];
+  attendanceList : string[]= [];
+  students : Student[] = [];
   sessionId ="";
-    constructor(private route: ActivatedRoute, private trainingSessionService: TrainingSessionService) {
+    constructor(private route: ActivatedRoute, private trainingSessionService: TrainingSessionService, private studentService: StudentService) {
       this.route.params.subscribe(params => { this.sessionId = params['id'] });
     }
     ngOnInit(): void {
@@ -26,48 +28,27 @@ export class TrainingSessionComponent implements OnInit {
       });
     }
     getSessionStudents(){
+      this.studentService.getStudents().subscribe(students => {
+        this.students = students;
+      });
       // this.trainingSessionService.getTrainingSessionStudents(this.sessionId).subscribe(students => {
       //   this.students = students;
       // });
-      this.students = [
-        {
-            $id: '1',
-            code: '123',
-            firstName: 'John',
-            middleName: 'Doe',
-            lastName: 'Doe',
-            secondLastName: 'Doe',
-            email: '@gmail.com',
-            birthdate: '01/01/2000',
-            gender: 'Male',
-            grade: 1,
-            CI: '123456789'
-        },{
-          $id: '2',
-          code: '123',
-          firstName: 'Pacha',
-          middleName: 'Cuy',
-          lastName: 'Doe',
-          secondLastName: 'Doe',
-          email: '@gmail.com',
-          birthdate: '01/01/2000',
-          gender: 'Male',
-          grade: 1,
-          CI: '123456789'
-      },
-      {
-        $id: '3',
-        code: '123',
-        firstName: 'Lee',
-        middleName: 'Doe',
-        lastName: 'Doe',
-        secondLastName: 'Doe',
-        email: '@gmail.com',
-        birthdate: '01/01/2000',
-        gender: 'Male',
-        grade: 1,
-        CI: '123456789'
     }
-      ]
+  studentIsPresent(id: string){
+    return this.attendanceList.includes(id);
+  }
+  checkStudent(id){
+    if(this.studentIsPresent(id)){
+      this.attendanceList = this.attendanceList.filter(studentId => studentId != id);
+    }else{
+      this.attendanceList.push(id);
     }
+  }
+  calculateAge(birthdate: string): number {
+    const birthDate = new Date(birthdate);
+    const currentDate = new Date();
+    const age = differenceInYears(currentDate, birthDate);
+    return age;
+  }
 }
