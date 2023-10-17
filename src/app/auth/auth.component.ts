@@ -16,12 +16,12 @@ export class AuthComponent implements  OnInit {
     });
    }
   ngOnInit(): void {
-    if (this.isSignedIn()) {
-      this.goToSchedule()
-    }
+    // if (this.isSignedIn()) {
+    //   this.goToSchedule()
+    // }
   }
-  async singIn() {
-    await this.auth.singIn(this.authForm.value).then(
+  async signIn() {
+    await this.auth.signIn(this.authForm.value).then(
       () => {
         console.log(this.auth.isLoggedIn())
       },

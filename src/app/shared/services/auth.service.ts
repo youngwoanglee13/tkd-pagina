@@ -5,26 +5,30 @@ import {Auth, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor(private auth: Auth) {
     console.log(this.auth.currentUser,)
    }
-  singIn({email, password}:any) {
+  signIn({email, password}:any) {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
-  singOut() {
+  signOut() {
+    console.log("SALIO",this.auth.currentUser)
     return signOut(this.auth);
   }
   isLoggedIn(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const unsubscribe = this.auth.onAuthStateChanged((user) => {
-        unsubscribe();
+        
+        
         if (user) {
+          console.log("LOGEADO")
           resolve(true);
         } else {
+          console.log("NO -- LOGEADO")
           resolve(false);
         }
       }, reject);
+      unsubscribe();
     });
   }  
 }

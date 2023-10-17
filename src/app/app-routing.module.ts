@@ -9,8 +9,8 @@ import { TrainingSessionListComponent } from './schedule/training-session-list/t
 import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
 
 const routes: Routes = [
-  { path : '', redirectTo: '/singin', pathMatch: 'full' },
-  { path : 'singin', component: AuthComponent},
+  { path : '', redirectTo: '/signin', pathMatch: 'full' },
+  { path : 'signin', component: AuthComponent},
   { path: 'register-student', component: AddStudentComponent },
   { path: 'view-students', component: StudentListComponent },
   { path: 'view-students/:id', component: StudentComponent },
