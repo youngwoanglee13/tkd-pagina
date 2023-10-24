@@ -1,34 +1,31 @@
-import { Injectable } from '@angular/core';
-import {Auth, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
-
+import { Injectable, inject } from '@angular/core';
+import {Auth,onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from '@angular/fire/auth';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private auth: Auth) {
-    console.log(this.auth.currentUser,)
-   }
-  signIn({email, password}:any) {
-    return signInWithEmailAndPassword(this.auth, email, password);
-  }
-  signOut() {
-    console.log("SALIO",this.auth.currentUser)
-    return signOut(this.auth);
-  }
-  isLoggedIn(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const unsubscribe = this.auth.onAuthStateChanged((user) => {
-        
-        
-        if (user) {
-          console.log("LOGEADO")
-          resolve(true);
-        } else {
-          console.log("NO -- LOGEADO")
-          resolve(false);
-        }
-      }, reject);
-      unsubscribe();
+  userData: User | null = null;
+  constructor(private auth :Auth) {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+      } else {
+        this.userData = null;
+        localStorage.setItem('user', 'null');
+      }
     });
-  }  
+  }
+  async signIn({email, password}:any) {
+    return await signInWithEmailAndPassword(this.auth, email, password);
+  }
+  async signOut() {
+    return await signOut(this.auth).then(() => {
+      localStorage.removeItem('user');
+    });
+  }
+  isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    return user !== null;
+  }
 }
