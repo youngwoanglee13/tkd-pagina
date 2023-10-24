@@ -16,24 +16,24 @@ export class AuthComponent implements  OnInit {
     });
    }
   ngOnInit(): void {
-    // if (this.isSignedIn()) {
-    //   this.goToSchedule()
-    // }
+    if (this.isSignedIn()) {
+      this.goToSchedule()
+    }
   }
   async signIn() {
     await this.auth.signIn(this.authForm.value).then(
       () => {
-        console.log(this.auth.isLoggedIn())
+        this.goToSchedule();
       },
       (error) => {
         console.error(error);
       }
     );
   }
-  async goToSchedule() {
+  goToSchedule() {
     this.router.navigate(['schedule']);
   }
-  async isSignedIn() {
-    return await this.auth.isLoggedIn();
+  isSignedIn() {
+    return this.auth.isLoggedIn();
   }
 }
