@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../../shared/services/student.service'
 import { Student } from '../../shared/interfaces/student'; 
 import { ToastrService } from 'ngx-toastr';
+import { calculateAge } from 'src/app/shared/helpers/date_helper';
 
 @Component({
   selector: 'app-student-list',
@@ -11,11 +12,13 @@ import { ToastrService } from 'ngx-toastr';
 export class StudentListComponent implements OnInit {
   p: number = 1;
   students: Student[];
-  
+  calculateAge: (birthdate: string) => number;
   constructor(
     public studentApi: StudentService,
     public toastr: ToastrService
-    ){ }
+    ){ 
+      this.calculateAge = calculateAge;
+    }
 
   ngOnInit() {
     this.getStudents();

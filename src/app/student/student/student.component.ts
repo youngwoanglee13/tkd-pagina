@@ -10,10 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class StudentComponent implements OnInit {
   public student: any;
   public fields = [
-    { label: 'Nombre', value: 'firstName' },
-    { label: 'Segundo Nombre', value: 'middleName' },
-    { label: 'Apellido', value: 'lastName' },
-    { label: 'Segundo Apellido', value: 'secondLastName' },
+    { label: 'Nombre Completo', value: 'completeName' },
     { label: 'Email', value: 'email' },
     { label: 'Fecha de Nacimiento', value: 'birthdate' },
     { label: 'Sexo', value: 'gender' },
@@ -32,6 +29,14 @@ export class StudentComponent implements OnInit {
       .getStudent(id)
       .subscribe((data) => {
         this.student = data;
+        this.student.completeName = this.student.firstName;
+        if(this.student.middleName){
+          this.student.completeName += ' ' + this.student.middleName;
+        }
+        this.student.completeName += ' ' + this.student.lastName;
+        if(this.student.secondLastName){
+          this.student.completeName += ' ' + this.student.secondLastName;
+        }
       });
   }
 }

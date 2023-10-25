@@ -42,7 +42,6 @@ export class AddStudentComponent implements OnInit {
     this.studentForm.reset();
   }
   submitStudentData() {
-    console.log(this.studentForm.value)
     this.studentApi.addStudent(this.studentForm.value);
     this.toastr.success(
       this.studentForm.controls['firstName'].value + ' successfully added!'
