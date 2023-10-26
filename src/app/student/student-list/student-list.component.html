@@ -24,7 +24,7 @@
         <tr>
           <th scope="col">Nombre</th>
           <th scope="col">Grado</th>
-          <th scope="col">Fecha Nacimiento</th>
+          <th scope="col">Edad</th>
           <th class="text-center" scope="col">Editar</th>
         </tr>
       </thead>
@@ -38,7 +38,7 @@
         >
           <td><a routerLink="/view-students/{{ student.$id }}">{{ student.firstName }} {{ student.lastName }}</a></td>
           <td>{{ student.grade }}</td>
-          <td>{{ student.birthdate }}</td>
+          <td>{{calculateAge(student.birthdate)}}</td>
           <td class="text-center action-block">
             <span
               class="mr-2 btn btn-outline-primary btn-sm"

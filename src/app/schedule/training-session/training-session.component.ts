@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Student } from 'src/app/shared/interfaces/student';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
 import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
-import { differenceInYears } from 'date-fns';
+import { calculateAge } from 'src/app/shared/helpers/date_helper';
 import { StudentService } from 'src/app/shared/services/student.service';
+
 @Component({
   selector: 'app-training-session',
   templateUrl: './training-session.component.html',
@@ -14,9 +15,11 @@ export class TrainingSessionComponent implements OnInit {
   session : trainingSession;
   attendanceList : string[]= [];
   students : Student[] = [];
+  calculateAge: (birthdate: string) => number;
   sessionId ="";
     constructor(private route: ActivatedRoute, private trainingSessionService: TrainingSessionService, private studentService: StudentService) {
       this.route.params.subscribe(params => { this.sessionId = params['id'] });
+      this.calculateAge = calculateAge;
     }
     ngOnInit(): void {
       this.getTrainingSession();
@@ -31,9 +34,6 @@ export class TrainingSessionComponent implements OnInit {
       this.studentService.getStudents().subscribe(students => {
         this.students = students;
       });
-      // this.trainingSessionService.getTrainingSessionStudents(this.sessionId).subscribe(students => {
-      //   this.students = students;
-      // });
     }
   studentIsPresent(id: string){
     return this.attendanceList.includes(id);
@@ -44,11 +44,5 @@ export class TrainingSessionComponent implements OnInit {
     }else{
       this.attendanceList.push(id);
     }
-  }
-  calculateAge(birthdate: string): number {
-    const birthDate = new Date(birthdate);
-    const currentDate = new Date();
-    const age = differenceInYears(currentDate, birthDate);
-    return age;
   }
 }

@@ -16,7 +16,6 @@ export class StudentService {
       student.code = await this.getNextId();
       const studentDocRef = await addDoc(studentCollectionRef, student);
       this.updateNextId(Number(student.code));
-      console.log('Student created with ID: ', studentDocRef.id);
     } catch (error) {
       console.error('Error creating student: ', error);
     }
