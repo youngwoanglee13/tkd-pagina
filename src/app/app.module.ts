@@ -18,6 +18,7 @@ import { ToastrModule } from 'ngx-toastr'
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
 import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
+import { EnrollStudentComponent } from './student/enroll-student/enroll-student.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TrainingSessionComponent } from './schedule/training-session/training-s
     StudentListComponent,
     StudentComponent,
     TrainingSessionListComponent,
-    TrainingSessionComponent
+    TrainingSessionComponent,
+    EnrollStudentComponent
   ],
   imports: [  
     BrowserModule,

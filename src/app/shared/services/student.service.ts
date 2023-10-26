@@ -87,4 +87,13 @@ export class StudentService {
     const studentDocRef = doc(this.firestore, 'students', studentId);
     deleteDoc(studentDocRef);
   }
+  // Enroll student
+  enrollStudent(student: Student) {
+    const studentDocRef = doc(this.firestore, 'students', student.$id);
+    updateDoc(studentDocRef, 
+      {
+        is_enrolled: true,
+        training_session_ids: student.training_session_ids
+      });
+  }
 }

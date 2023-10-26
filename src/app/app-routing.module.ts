@@ -8,6 +8,7 @@ import { StudentComponent } from './student/student/student.component';
 import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
 import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
 import { guardGuard } from './guard/guard.guard';
+import { EnrollStudentComponent } from './student/enroll-student/enroll-student.component';
 
 const routes: Routes = [
   { path : '', redirectTo: '/signin', pathMatch: 'full' },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'view-students/:id', component: StudentComponent, canActivate: [guardGuard] },
   { path: 'edit-student/:id', component: EditStudentComponent,canActivate: [guardGuard] },
   { path : 'schedule', component: TrainingSessionListComponent, canActivate: [guardGuard]},
-  { path : 'session/:id', component: TrainingSessionComponent, canActivate: [guardGuard]}
+  { path : 'session/:id', component: TrainingSessionComponent, canActivate: [guardGuard]},
+  { path: 'enroll-student/:id', component: EnrollStudentComponent,canActivate: [guardGuard] },
 ];
 
 @NgModule({

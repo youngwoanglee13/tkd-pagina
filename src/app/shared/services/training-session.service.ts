@@ -32,4 +32,22 @@ export class TrainingSessionService {
       });
     });
   }
+  getTrainingSessionsOrderedByDays(): trainingSession[][] {
+    let orderedTrainingSessions : trainingSession[][] = [[], [], [], [], []];
+    this.getTrainingSessions().subscribe(
+      (sessions) => {
+        for (let session of sessions){
+          if(session.dayOfWeek=="Lunes") orderedTrainingSessions[0].push(session);
+          if(session.dayOfWeek=="Martes") orderedTrainingSessions[1].push(session);
+          if(session.dayOfWeek=="Miercoles") orderedTrainingSessions[2].push(session);
+          if(session.dayOfWeek=="Jueves") orderedTrainingSessions[3].push(session);
+          if(session.dayOfWeek=="Viernes") orderedTrainingSessions[4].push(session);
+        }
+        for (let day of orderedTrainingSessions){
+          day.sort((a, b) => (parseInt(a.startTime) > parseInt(b.startTime)) ? 1 : -1);
+        }
+      }
+    );
+    return orderedTrainingSessions;
+  }
 }
