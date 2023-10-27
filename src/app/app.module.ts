@@ -19,6 +19,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
 import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
 import { EnrollStudentComponent } from './student/enroll-student/enroll-student.component';
+import { DebtorsListComponent } from './debtors-list/debtors-list.component';
+import { PaymentsListComponent } from './payments-list/payments-list.component';
+import { MakePaymentComponent } from './make-payment/make-payment.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { EnrollStudentComponent } from './student/enroll-student/enroll-student.
     StudentComponent,
     TrainingSessionListComponent,
     TrainingSessionComponent,
-    EnrollStudentComponent
+    EnrollStudentComponent,
+    DebtorsListComponent,
+    PaymentsListComponent,
+    MakePaymentComponent
   ],
   imports: [  
     BrowserModule,
