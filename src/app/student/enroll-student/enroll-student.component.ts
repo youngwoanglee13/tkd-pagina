@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { currentDate } from 'src/app/shared/helpers/date_helper';
 import { Student } from 'src/app/shared/interfaces/student';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
 import { StudentService } from 'src/app/shared/services/student.service';
@@ -18,6 +19,7 @@ export class EnrollStudentComponent implements OnInit  {
   daysOfWeek=['Lunes','Martes','Miercoles','Jueves','Viernes']
   selectedDays=[0,0,0];
   weeklySessionCount=1;
+  date =currentDate();
   constructor(private route: ActivatedRoute, private studentService: StudentService, private trainingSessionService: TrainingSessionService) {
     this.studentId = this.route.snapshot.paramMap.get('id');
   }
@@ -51,8 +53,13 @@ export class EnrollStudentComponent implements OnInit  {
     let selectedSessions=this.selectedSessionsIds.filter(item => item !== "")
     selectedSessions=Array.from(new Set(selectedSessions));
     if(this.weeklySessionCount!=selectedSessions.length){alert("LLenar todos los campos correctamente");return};
+
     this.student.training_session_ids=selectedSessions;
-    this.studentService.enrollStudent(this.student);
+    this.student.enrollment_date=this.date;
+    this.student.enrollemnt_type= this.weeklySessionCount+ (this.weeklySessionCount==1 ? " sesion" : " sesiones") + " por semana";
+
+    //this.studentService.enrollStudent(this.student);
+    console.log(this.student);
   }
   getEnrolledSessions(){
     let res=[];
