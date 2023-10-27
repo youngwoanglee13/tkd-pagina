@@ -16,6 +16,7 @@ export class StudentService {
       student.code = await this.getNextId();
       const studentDocRef = await addDoc(studentCollectionRef, student);
       this.updateNextId(Number(student.code));
+      console.log('Student created with ID: ', studentDocRef.id);
     } catch (error) {
       console.error('Error creating student: ', error);
     }
@@ -92,7 +93,26 @@ export class StudentService {
     updateDoc(studentDocRef, 
       {
         is_enrolled: true,
-        training_session_ids: student.training_session_ids
+        training_session_ids: student.training_session_ids,
+        enrollment_date: student.enrollment_date,
+        enrollemnt_type: student.enrollemnt_type
       });
   }
+  //fetch all students enrolled in a session
+  getStudentsWithTrainingSession(id:string): Observable<Student[]> {////////////////ASISTENCIA
+    const q = query(collection(this.firestore, "students"), where("training_session_ids", "array-contains", id));
+    return new Observable((observer) => {
+      onSnapshot(q, (querySnapshot) => {
+        const students: Student[] = [];
+        querySnapshot.forEach((doc) => {
+          const student = doc.data();
+          student.$id = doc.id;
+          students.push(student as Student);
+        });
+        observer.next(students);
+      });
+    });
+  }
+
 }
+
