@@ -15,5 +15,8 @@ export interface Student {
     is_deleted: boolean;
     enrollment_date: string;
     enrollemnt_type: string;
+    monthly_payment: number;
+    debt: number;
+    debt_str: string;
     training_session_ids: string[];
 }

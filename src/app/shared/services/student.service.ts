@@ -2,13 +2,19 @@ import { Injectable } from '@angular/core';
 import { Student } from '../interfaces/student';
 import { Observable } from 'rxjs';
 import { Firestore, collection, addDoc, getDocs,  query, where, doc, deleteDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { monthsDif, today } from '../helpers/date_helper';
+import { PaymentService } from './payment.service';
+import { Payment } from '../interfaces/payment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
 
-  constructor(private firestore: Firestore) { }
+  constructor(
+    private firestore: Firestore,
+    public paymentApi: PaymentService
+    ) { }
   // Create student
   async addStudent(student: Student) {
     try {
@@ -47,11 +53,50 @@ export class StudentService {
         querySnapshot.forEach((doc) => {
           const student = doc.data();
           student.$id = doc.id;
-          students.push(student as Student);
+          if (!student.is_deleted) {
+            students.push(student as Student);
+          }
         });
         observer.next(students);
       });
     });
+  }
+  // Fetch all debtors
+  getDebtors(): Observable<Student[]> {
+    return new Observable((observer) => {
+      this.getStudents().subscribe((students) => {
+        const debtors: Student[] = [];
+        students.forEach((student) => {
+          if (student.is_enrolled && !student.is_deleted) {
+            this.paymentApi.getPaymentsArray(student.enrollment_date, today(), student.$id).then((payments) => {
+              student.debt = this.calculateDebt(student, payments);
+              student.debt_str = this.getDebtString(student);
+              if (student.debt > 0) {
+                debtors.push(student);
+              }
+            });
+          }
+        });
+        observer.next(debtors);
+      });
+    });
+  }
+  // Calculate debt
+  calculateDebt(student: Student, payments?: Payment[]) {
+    let todayDate = today();
+    let months = monthsDif(todayDate, student.enrollment_date, );
+    let debt = (months + 1) * student.monthly_payment;
+    if (payments) {
+      payments.forEach((payment) => {
+        debt -= payment.amount;
+      });
+    }
+    return debt;
+  }
+  // Get debt string
+  getDebtString(student: Student) {
+    let months = Math.ceil(student.debt/student.monthly_payment);
+    return student.debt + 'Bs / ' + months + ' mes' + (months > 1 ? 'es' : '');
   }
   // Fetch single student
   getStudent(studentId: string) {
@@ -96,3 +141,4 @@ export class StudentService {
       });
   }
 }
+
