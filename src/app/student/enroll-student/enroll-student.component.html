@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <div class="container" *ngIf="student">
     <div class="container  ">
         <p class="text-center">{{student.firstName}} {{student.lastName}}</p>
@@ -12,6 +13,7 @@
             <option value="2" >Dos sesiones</option>
             <option value="3">Tres sesiones</option>
         </select>
+        <input type="date" [(ngModel)]="date">
     </div>
     <div class="container">
         <div class="input-group" >

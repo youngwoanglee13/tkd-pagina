@@ -1,5 +1,4 @@
-import { differenceInYears } from 'date-fns';
-import { differenceInMonths } from 'date-fns';
+import { differenceInYears, differenceInMonths, format } from 'date-fns';
 
 // Calculate age
 export function calculateAge(birthdate: string): number {
@@ -8,6 +7,11 @@ export function calculateAge(birthdate: string): number {
     const age = differenceInYears(currentDate, birthDate);
     return age;
 }
+export function currentDate(): string {
+    const currentDate = new Date();
+    const date = format(currentDate, 'yyyy-MM-dd');
+    return date;
+} 
 
 // Difference in months
 export function monthsDif(date1: string, date2: string): number {

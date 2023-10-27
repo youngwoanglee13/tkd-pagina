@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'edit-student/:id', component: EditStudentComponent,canActivate: [guardGuard] },
   { path : 'schedule', component: TrainingSessionListComponent, canActivate: [guardGuard]},
   { path : 'session/:id', component: TrainingSessionComponent, canActivate: [guardGuard]},
+  { path : 'session/:id/:date', component: TrainingSessionComponent, canActivate: [guardGuard]},
   { path: 'enroll-student/:id', component: EnrollStudentComponent,canActivate: [guardGuard] },
   { path: 'view-debtors', component: DebtorsListComponent,canActivate: [guardGuard] },
   { path: 'view-payments', component: PaymentsListComponent,canActivate: [guardGuard] },
