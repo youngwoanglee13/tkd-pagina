@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from 'src/app/shared/interfaces/student';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
@@ -15,8 +15,10 @@ import { Attendance } from 'src/app/shared/interfaces/attendance';
 export class TrainingSessionComponent implements OnInit {
   sessionId ="";
   session : trainingSession;
-  attendanceListIds : string[]= [];
-  students : Student[] = [];
+  checkedStudents : string[]= [];
+  previousStudentIds: string[] = [];
+  previousAttendance: Attendance[] = [];
+  studentsList : Student[] = [];
   date ="";
   constructor(private route: ActivatedRoute, private trainingSessionService: TrainingSessionService, private studentService: StudentService, private attendanceService: AttendanceService,private router: Router) {
     this.route.params.subscribe(params => { this.sessionId = params['id']; this.date = params['date'] });
@@ -24,7 +26,7 @@ export class TrainingSessionComponent implements OnInit {
   ngOnInit(): void {
     this.getTrainingSession();
     this.getSessionStudents();
-    this.getCheckedStudentsList();
+    this.getPreviousAttendanceList();
   }
   getTrainingSession(){
     this.trainingSessionService.getTrainingSession(this.sessionId).subscribe(session => {
@@ -33,28 +35,33 @@ export class TrainingSessionComponent implements OnInit {
   }
   getSessionStudents(){
     this.studentService.getStudentsWithTrainingSession(this.sessionId).subscribe(students => {
-      this.students = students;
+      this.studentsList = students;
     });
   }
-  getCheckedStudentsList(){
+  getPreviousAttendanceList(){
+    this.previousStudentIds = [];
     this.attendanceService.getAttendanceBySessionIdAndDate(this.sessionId,this.date).subscribe(attendanceList => {
-      this.checkStudents(attendanceList);   
+      this.previousAttendance = attendanceList;
+      for (let attendance of attendanceList){
+        this.previousStudentIds.push(attendance.student_id);
+      }
+      this.checkStudents();   
     });
   }
-  checkStudents(attendanceList: Attendance[]){
-    this.attendanceListIds = [];
-    for (let attendance of attendanceList){
-      this.attendanceListIds.push(attendance.student_id);
+  checkStudents(){
+    this.checkedStudents = [];
+    for (let student_id of this.previousStudentIds){
+      this.checkedStudents.push(student_id);
     }
   }
-  studentIsPresent(id: string){
-    return this.attendanceListIds.includes(id);
+  studentIsChecked(id: string){
+    return this.checkedStudents.includes(id);
   }
   checkStudent(id: string){
-    if(this.studentIsPresent(id)){
-      this.attendanceListIds = this.attendanceListIds.filter(studentId => studentId != id);
+    if(this.studentIsChecked(id)){
+      this.checkedStudents = this.checkedStudents.filter(studentId => studentId != id);
     }else{
-      this.attendanceListIds.push(id);
+      this.checkedStudents.push(id);
     }
   }
   calculateAge(birthdate: string): number {
@@ -65,7 +72,11 @@ export class TrainingSessionComponent implements OnInit {
   }
   saveAttendance(){
     let attendanceList = [];
-    for (let studentId of this.attendanceListIds){
+    if(this.previousStudentIds.length > 0){
+      this.updateAttendanceList();
+      return;
+    }
+    for (let studentId of this.checkedStudents){
       let attendance  = {
         student_id: studentId,
         training_session_id: this.sessionId,
@@ -73,12 +84,30 @@ export class TrainingSessionComponent implements OnInit {
       };
       attendanceList.push(attendance);
     }
-    this.attendanceService.saveAttendance(attendanceList);
+    this.attendanceService.saveAttendances(attendanceList);
   }
   selectDate(){
-    this.attendanceListIds = [];
+    this.checkedStudents = [];
     this.router.navigate(['session/'+this.sessionId+'/'+this.date]);
-    this.getCheckedStudentsList();
+    this.getPreviousAttendanceList();
   }
-  
+  updateAttendanceList(){
+    let newAttendancesList = [];
+    let deleteAttendancesList = [];
+    for (let student of this.studentsList){
+      if(this.previousStudentIds.includes(student.$id) && !this.checkedStudents.includes(student.$id)){
+        deleteAttendancesList.push(this.previousAttendance.find(attendance => attendance.student_id == student.$id).id);  
+      }
+      if(!this.previousStudentIds.includes(student.$id) && this.checkedStudents.includes(student.$id)){
+        let attendance  = {
+          student_id: student.$id,
+          training_session_id: this.sessionId,
+          date: this.date,
+        };
+        newAttendancesList.push(attendance);    
+      }
+    }
+    this.attendanceService.updateAttendances(newAttendancesList,deleteAttendancesList);
+    this.getPreviousAttendanceList();
+  }
 }
