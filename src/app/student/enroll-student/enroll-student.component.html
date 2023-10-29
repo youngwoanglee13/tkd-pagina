@@ -2,10 +2,6 @@
 <div class="container" *ngIf="student">
     <div class="container  ">
         <p class="text-center">{{student.firstName}} {{student.lastName}}</p>
-        <div class="container"  *ngIf="student.is_enrolled">
-            <p class="text-center">Actualmente inscrito:</p>
-            <p class="text-center" *ngFor="let session of getEnrolledSessions()">{{session.dayOfWeek}} {{session.startTime}} {{session.endTime}}</p>
-        </div>
     </div>
     <div class="container mb-3">
         <select class="form-select" aria-label="Default select example" (change)="setSessionsPerWeek($event)">

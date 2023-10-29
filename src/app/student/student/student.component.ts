@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../../shared/services/student.service';
 import { ActivatedRoute } from '@angular/router';
+import trainingSession from 'src/app/shared/interfaces/training-session.interface';
+import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
 
 @Component({
   selector: 'app-student',
@@ -17,10 +19,12 @@ export class StudentComponent implements OnInit {
     { label: 'Grado', value: 'grade' },
     { label: 'CI', value: 'CI' }
   ];
+  trainingSessions : trainingSession[] = [];
 
   constructor(
     public studentApi: StudentService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private trainingSessionService: TrainingSessionService
   ) {}
 
   ngOnInit() {
@@ -37,6 +41,16 @@ export class StudentComponent implements OnInit {
         if(this.student.secondLastName){
           this.student.completeName += ' ' + this.student.secondLastName;
         }
+        this.getTrainingSessions();
       });
+    
+  }
+  async getTrainingSessions(){
+    await this.trainingSessionService.getTrainingSessionsByIDs(this.student.training_session_ids).then(
+      (sessions) => {
+        this.trainingSessions = sessions as trainingSession[];
+        console.log(sessions);
+      }
+    );
   }
 }

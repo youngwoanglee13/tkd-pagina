@@ -57,19 +57,7 @@ export class EnrollStudentComponent implements OnInit  {
     this.student.training_session_ids=selectedSessions;
     this.student.enrollment_date=this.date;
     this.student.enrollemnt_type= this.weeklySessionCount+ (this.weeklySessionCount==1 ? " sesion" : " sesiones") + " por semana";
-
-    //this.studentService.enrollStudent(this.student);
-    console.log(this.student);
-  }
-  getEnrolledSessions(){
-    let res=[];
-    for (let day of this.trainingSessions) {
-      for (let session of day) {
-        if(this.student.training_session_ids.includes(session.id)){
-          res.push(session);
-        }
-      }
-    }
-    return res;
+    
+    this.studentService.enrollStudent(this.student);
   }
 }
