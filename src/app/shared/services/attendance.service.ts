@@ -37,28 +37,10 @@ export class AttendanceService {
       console.log('Asistencias guardadas con éxito.');
     }).catch((error) => {
       console.error('Error al guardar las asistencias:', error);
-      throw error; // Lanzar el error para que pueda ser manejado por el código que llama a esta función.
+      throw error; 
     });
   }
-  async deleteAttendances(attendanceIds: string[]): Promise<void> {//y si recibo delete y save en el mismo array?
-    const attendanceCollectionRef = collection(this.firestore, 'attendance'); 
-  
-    const batch = writeBatch(this.firestore);
-  
-    attendanceIds.forEach((attendanceId) => {
-      const docRef = doc(attendanceCollectionRef, attendanceId);
-      batch.delete(docRef);
-    });
-  
-    try {
-      await batch.commit();
-      console.log('Asistencias eliminadas con éxito.');
-    } catch (error) {
-      console.error('Error al eliminar asistencias:', error);
-      throw error;
-    }
-  }
-  
+    
   async updateAttendances(newAttendancesList: Attendance[] ,deleteAttendancesList: string[]): Promise<void> {//y si recibo delete y save en el mismo array?
     const attendanceCollectionRef = collection(this.firestore, 'attendance'); 
     const batch = writeBatch(this.firestore);
