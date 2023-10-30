@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, onSnapshot, collectionData, doc, deleteDoc, updateDoc, writeBatch,where,query } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, onSnapshot, collectionData, doc, deleteDoc, updateDoc, writeBatch,where,query, getDocs } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Attendance } from '../interfaces/attendance';
 
@@ -26,7 +26,7 @@ export class AttendanceService {
     });
   }
 
-  async saveAttendance(attendanceList: Attendance[]): Promise<void> {
+  async saveAttendances(attendanceList: Attendance[]): Promise<void> {
     const attendanceCollectionRef = collection(this.firestore, 'attendance');
     const batch = writeBatch(this.firestore);
     attendanceList.forEach((attendance) => {
@@ -37,7 +37,28 @@ export class AttendanceService {
       console.log('Asistencias guardadas con éxito.');
     }).catch((error) => {
       console.error('Error al guardar las asistencias:', error);
-      throw error; // Lanzar el error para que pueda ser manejado por el código que llama a esta función.
+      throw error; 
+    });
+  }
+    
+  async updateAttendances(newAttendancesList: Attendance[] ,deleteAttendancesList: string[]): Promise<void> {//y si recibo delete y save en el mismo array?
+    const attendanceCollectionRef = collection(this.firestore, 'attendance'); 
+    const batch = writeBatch(this.firestore);
+    
+    newAttendancesList.forEach((attendance) => {
+      const newDocRef = doc(attendanceCollectionRef);
+      batch.set(newDocRef, attendance);
+    });
+    deleteAttendancesList.forEach((attendanceId) => {
+      const docRef = doc(attendanceCollectionRef, attendanceId);
+      batch.delete(docRef);
+    });
+    
+     await batch.commit().then(() => {
+      console.log('Asistencias actualizadas con éxito.');
+    }).catch((error) => {
+      console.error('Error al actualizar las asistencias:', error);
+      throw error; 
     });
   }
 }

@@ -6,7 +6,7 @@
     
     <div class="row mb-2 ">
         <div class="col-md-6">
-            <a class="btn btn-success" routerLink="/enroll-student/{{student.$id}}">Inscribir</a>
+            <a *ngIf="!student.is_enrolled" class="btn btn-success" routerLink="/enroll-student/{{student.$id}}">Inscribir</a>
         </div>
         <div class="col-md-6">
             <a routerLink="/edit-student/{{ student.$id }}" class="btn btn-primary">Editar</a>
@@ -15,6 +15,13 @@
     <div class="card text-dark bg-light mb-3">
         <div *ngFor="let field of fields" class="col-md-12 mb-1">
             <p><strong>{{ field.label }}:</strong> {{ student[field.value] }}</p>
+        </div>
+    </div>
+    
+    <div class="row mb-2 ">
+        <div class="container"  *ngIf="student.is_enrolled">
+            <p class="text-center">Actualmente inscrito:</p>
+            <p class="text-center" *ngFor="let session of trainingSessions">{{session.dayOfWeek}} {{session.startTime}} {{session.endTime}}</p>
         </div>
     </div>  
 </div>

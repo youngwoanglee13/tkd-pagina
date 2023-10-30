@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, onSnapshot, collectionData, doc, deleteDoc, updateDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, onSnapshot, where, doc, query, updateDoc, getDocs } from '@angular/fire/firestore';
 import trainingSession from '../interfaces/training-session.interface';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -50,4 +50,39 @@ export class TrainingSessionService {
     );
     return orderedTrainingSessions;
   }
+  //fetch all training sessions of a student
+  async getTrainingSessionsByIDs(ids: string[]) {
+    const collectionRef = collection(this.firestore, 'training_sessions');
+    const q = query(collectionRef, where('__name__', 'in', ids));
+
+    const querySnapshot = await getDocs(q);
+  
+    const documentos = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const id = doc.id;
+      documentos.push({ id, ...data });
+    });
+    documentos.sort(this.compareTrainingSessions);
+    return documentos;
+  }
+  compareTrainingSessions(a: trainingSession, b: trainingSession): number {
+    const dayOfWeekMap: { [key: string]: number } = {
+      'Lunes': 1,
+      'Martes': 2,
+      'Miércoles': 3,
+      'Jueves': 4,
+      'Viernes': 5,
+  };
+    const diaA = dayOfWeekMap[a.dayOfWeek];
+    const diaB = dayOfWeekMap[b.dayOfWeek];
+
+    if (diaA < diaB) return -1;
+    if (diaA > diaB) return 1;
+
+    if (a.startTime < b.startTime) return -1;
+    if (a.startTime > b.startTime) return 1;
+
+    return 0;
+}
 }

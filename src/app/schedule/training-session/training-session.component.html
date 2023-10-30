@@ -2,7 +2,7 @@
 <div class="container" *ngIf="session">
     <div class="container">
         <p class="text-center">Turno {{session.dayOfWeek}} {{session.startTime}} - {{session.endTime}}</p>
-        <p class="text-center">{{students.length}} Alumnos Inscritos</p>
+        <p class="text-center">{{studentsList.length}} Alumnos Inscritos</p>
     </div>
     <div class="container">
       <input type="date" (change)="selectDate()" [(ngModel)]="date">
@@ -18,10 +18,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let student of students">
+              <tr *ngFor="let student of studentsList">
                 <th scope="row">
                     <div class="d-flex justify-content-center">
-                        <input [checked]="attendanceListIds.includes(student.$id)" class="form-check-input me-1" type="checkbox" value="" id="{{student.$id}}" (change)="checkStudent(student.$id)">
+                        <input [checked]="checkedStudents.includes(student.$id)" class="form-check-input me-1" type="checkbox" value="" id="{{student.$id}}" (change)="checkStudent(student.$id)">
                     </div>
                 </th>
                 <td>{{student.firstName}} {{student.lastName}}</td>
