@@ -1,6 +1,30 @@
 
-
-<form [formGroup]="authForm" (ngSubmit)="signIn()">
+<section class="vh-100" style="background-color: #353535;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <form class="card-body p-5 text-center" [formGroup]="authForm" (ngSubmit)="signIn()">
+       
+  
+              <h3 class="mb-5">Bienvenido</h3>
+  
+              <div class="form-outline mb-4">
+                <input formControlName="email" type="email" id="typeEmailX-2" class="form-control form-control-lg" placeholder="Correo"/>
+              </div>
+  
+              <div class="form-outline mb-4">
+                <input formControlName="password" type="password" id="typePasswordX-2" class="form-control form-control-lg"  placeholder="Contraseña" />
+              </div>
+              <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+       
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- <form [formGroup]="authForm" (ngSubmit)="signIn()">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Email address</label>
         <input formControlName="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
@@ -12,4 +36,4 @@
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Login</button>
     </div>
-</form>
+</form> -->
