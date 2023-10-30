@@ -1,44 +1,42 @@
 <app-navbar></app-navbar>
-<div class="container mb-4">
-    <div class="pt-2 pb-2 mb-2 border-bottom">
-        <h2 class="h2">Perfil de {{ student.firstName }}</h2>
+<div class="container mb-4" *ngIf="student">
+  <hr>
+    <div class="pt-2 pb-2 mb-2 mt-2">
+        <h2 class="text-center">Perfil de {{ student.firstName }}</h2>
     </div>
-    
+  <hr>
     <div class="row mb-2 ">
-        <div *ngIf="!student.is_enrolled" class="col-md-2">
-            <a class="btn btn-success" routerLink="/enroll-student/{{student.$id}}">Inscribir</a>
-        </div>
-        <div *ngIf="student.is_enrolled" class="col-md-2">
-            <a class="btn btn-warning">Anular Inscripción</a>
-        </div>
-        <div class="col-md-2">
-            <a routerLink="/edit-student/{{ student.$id }}" class="btn btn-primary">Editar</a>
-        </div>
-        <div *ngIf="student.is_enrolled" class="col-md-2">
-            <a routerLink="/make-payment/{{ student.$id }}" class="btn btn-outline-dark">Realizar Pago</a>
-        </div>
+      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <button *ngIf="!student.is_enrolled" type="button" routerLink="/enroll-student/{{student.$id}}" class="btn btn-danger">Inscribir</button>
+        <button *ngIf="student.is_enrolled" type="button" class="btn btn-danger">Anular Inscripción</button>
+        <button type="button" routerLink="/edit-student/{{ student.$id }}" class="btn btn-secondary">Editar</button>
+        <button *ngIf="student.is_enrolled" type="button" routerLink="/make-payment/{{ student.$id }}" class="btn btn-success">Realizar Pago</button>
+      </div>
     </div>
-    <div class="card text-dark bg-light mb-3">
-        <div class="row">
-          <div class="col-md-4">
-            <div *ngFor="let field of fields" class="mb-1">
-              <p><strong>{{ field.label }}:</strong> {{ student[field.value] }}</p>
-            </div>
-          </div>
-      
-          <div class="col-md-4" *ngIf="student.is_enrolled">
-            <div class="row mb-2" *ngIf="student.is_enrolled">
-              <p class="text-center">Actualmente inscrito:</p>
-              <p class="text-center" *ngFor="let session of trainingSessions">{{ session.dayOfWeek }} {{ session.startTime }} {{ session.endTime }}</p>
-            </div>
-          </div>
-      
-          <div class="col-md-4" *ngIf="student.is_enrolled">
-            <div *ngFor="let field of fieldEnrolled" class="mb-1">
-                <p><strong>{{ field.label }}:</strong> {{ student[field.value] }}</p>
-            </div>
-          </div>
+    <hr>
+    <div class="input-group" *ngFor="let field of fields" >
+      <span class="input-group-text" [style.width]="'170px'">{{field.label}}</span>
+      <div type="text" aria-label="First name" class="form-control">{{student[field.value]}}</div>
+    </div>
+
+    <div *ngIf="student.is_enrolled">
+      <div class="input-group" *ngFor="let field of fieldEnrolled" >
+        <span class="input-group-text" [style.width]="'170px'">{{field.label}}</span>
+        <div type="text" aria-label="First name" class="form-control">{{student[field.value]}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="student.is_enrolled">
+      <div class="pt-2 pb-2 mb-2 mt-2">
+        <h2 class="text-center">Horarios</h2>
+      </div>
+      <div class="input-group" *ngFor="let session of trainingSessions" >
+        <span class="input-group-text" [style.width]="'170px'">{{session.dayOfWeek}}</span>
+        <div type="text" aria-label="First name" class="form-control">
+          {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
+          {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
         </div>
       </div>
-      
+    </div>
+    
 </div>
