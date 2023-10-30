@@ -1,9 +1,16 @@
 <app-navbar></app-navbar>
 <div class="container mb-4" *ngIf="student">
   <hr>
-    <div class="pt-2 pb-2 mb-2 mt-2">
-        <h2 class="text-center">Perfil de {{ student.firstName }}</h2>
+  <div class="text-center">
+    <div class="btn  position-relative">
+      <span>
+        <span class="h2">Perfil de {{ student.firstName }}</span>
+        <span *ngIf="student.is_enrolled" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+          inscrito
+        </span>
+      </span>
     </div>
+  </div>
   <hr>
     <div class="row mb-2 ">
       <div class="btn-group" role="group" aria-label="Basic mixed styles example">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ro } from 'date-fns/locale';
 import { currentDate } from 'src/app/shared/helpers/date_helper';
 import { Student } from 'src/app/shared/interfaces/student';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
@@ -12,15 +13,19 @@ import { TrainingSessionService } from 'src/app/shared/services/training-session
   styleUrls: ['./enroll-student.component.scss']
 })
 export class EnrollStudentComponent implements OnInit  {
+  selectedDay: number=0;
+  trainingSessions : trainingSession[][] = [];
+  sessionsOptions: trainingSession[]=[];
+  selectedOption: string="";
+  selectedSessionsIds=[]
+  selectedSessions: trainingSession[]=[];
+  monthlyPayment=0;
+  daysOfWeek=['Lunes','Martes','Miercoles','Jueves','Viernes']
+  date =currentDate();
+  weeklySessionCount=2;
   studentId: string;
   student: Student;
-  trainingSessions : trainingSession[][] = [[], [], [], [], []];
-  selectedSessionsIds=["","",""];
-  daysOfWeek=['Lunes','Martes','Miercoles','Jueves','Viernes']
-  selectedDays=[0,0,0];
-  weeklySessionCount=1;
-  date =currentDate();
-  constructor(private route: ActivatedRoute, private studentService: StudentService, private trainingSessionService: TrainingSessionService) {
+  constructor(private route: ActivatedRoute, private studentService: StudentService, private trainingSessionService: TrainingSessionService, private router: Router) {
     this.studentId = this.route.snapshot.paramMap.get('id');
   }
   ngOnInit(): void {
@@ -36,32 +41,44 @@ export class EnrollStudentComponent implements OnInit  {
     this.trainingSessionService.getTrainingSessionsOrderedByDays().then(
       (sessions) => {
         this.trainingSessions = sessions;
+        this.sessionsOptions=this.trainingSessions[0];
       }
     );
-  }
-  getSessionByDay(day: number) {
-    return this.trainingSessions[day];
   }
   setSessionsPerWeek(event: any){
     this.weeklySessionCount=event.target.value;
   }
-  selectSession(event: any,pos: number){
-    const sessionId = event.target.value;
-    if(sessionId==="")return;
-    this.selectedSessionsIds[pos]=sessionId;
+  selectDay(event: any){
+    this.selectedDay=event.target.value;
+    this.sessionsOptions=this.trainingSessions[this.selectedDay];
   }
-  resetDay(day: number){
-    this.selectedSessionsIds[day]="";
+  selectOption(event: any){
+    const sessionId = event.target.value;
+    this.selectedOption=sessionId
+    console.log(this.selectedOption);
+  }
+  addSession(){
+    if(this.selectedOption===""){alert("Elige un horario");return};
+    if(this.selectedSessionsIds.length>=this.weeklySessionCount){alert("Ya se han agregado todas las sesiones");return}
+    if(this.selectedSessionsIds.includes(this.selectedOption)){alert("Ya se ha agregado esta sesion");return};
+    this.selectedSessionsIds.push(this.selectedOption);
+    this.selectedSessions.push(this.sessionsOptions.find(session=>session.id==this.selectedOption));
+  }
+  deleteSession(sessionId: string){
+    this.selectedSessionsIds=this.selectedSessionsIds.filter(item => item !== sessionId);
+    this.selectedSessions=this.selectedSessions.filter(session=>session.id!=sessionId);
   }
   enrollStudent(){
-    let selectedSessions=this.selectedSessionsIds.filter(item => item !== "")
-    selectedSessions=Array.from(new Set(selectedSessions));
-    if(this.weeklySessionCount!=selectedSessions.length){alert("LLenar todos los campos correctamente");return};
-
-    this.student.training_session_ids=selectedSessions;
+    if(this.weeklySessionCount!=this.selectedSessionsIds.length){alert("El horario debe contener "+this.weeklySessionCount + " sesiones");return};
+    if(this.monthlyPayment<=0){alert("El pago mensual debe ser mayor a 0");return};
+    this.student.training_session_ids=this.selectedSessionsIds;
     this.student.enrollment_date=this.date;
-    this.student.enrollemnt_type= this.weeklySessionCount+ (this.weeklySessionCount==1 ? " sesion" : " sesiones") + " por semana";
+    this.student.enrollemnt_type= this.weeklySessionCount + " sesiones por semana";
+    this.student.monthly_payment=this.monthlyPayment;
     
     this.studentService.enrollStudent(this.student);
+   // alert("Estudiante inscrito correctamente");
+    this.router.navigate(['view-students/'+this.studentId]);
+
   }
 }

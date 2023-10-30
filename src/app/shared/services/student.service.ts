@@ -151,7 +151,8 @@ export class StudentService {
         is_enrolled: true,
         training_session_ids: student.training_session_ids,
         enrollment_date: student.enrollment_date,
-        enrollemnt_type: student.enrollemnt_type
+        enrollemnt_type: student.enrollemnt_type,
+        monthly_payment: student.monthly_payment
       });
   }
   //fetch all students enrolled in a session
