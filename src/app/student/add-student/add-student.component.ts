@@ -3,6 +3,7 @@ import { StudentService } from '../../shared/services/student.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-student',
   templateUrl: './add-student.component.html',
@@ -14,7 +15,8 @@ export class AddStudentComponent implements OnInit {
     public studentApi: StudentService,
     public fb: FormBuilder,
     private location: Location,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private router: Router
   ) {}
   ngOnInit() {
     this.studenForm();
@@ -42,11 +44,14 @@ export class AddStudentComponent implements OnInit {
     this.studentForm.reset();
   }
   submitStudentData() {
-    this.studentApi.addStudent(this.studentForm.value);
-    this.toastr.success(
-      this.studentForm.controls['firstName'].value + ' successfully added!'
-    );
-    this.ResetForm();
+    this.studentApi.addStudent(this.studentForm.value).then((res) => {
+      this.toastr.success(
+        this.studentForm.controls['firstName'].value + ' successfully added!'
+      );
+      this.ResetForm();
+      // redirect to newly added student page
+      this.router.navigate(['/view-students', res.id]);
+    });
   }
   goBack() {
     this.location.back();
