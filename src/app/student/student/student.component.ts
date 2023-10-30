@@ -3,6 +3,7 @@ import { StudentService } from '../../shared/services/student.service';
 import { ActivatedRoute } from '@angular/router';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
 import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
+import { Student } from 'src/app/shared/interfaces/student';
 
 @Component({
   selector: 'app-student',
@@ -10,7 +11,7 @@ import { TrainingSessionService } from 'src/app/shared/services/training-session
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent implements OnInit {
-  public student: any;
+  public student: Student;
   public fields = [
     { label: 'Nombre Completo', value: 'completeName' },
     { label: 'Email', value: 'email' },
@@ -18,6 +19,12 @@ export class StudentComponent implements OnInit {
     { label: 'Sexo', value: 'gender' },
     { label: 'Grado', value: 'grade' },
     { label: 'CI', value: 'CI' }
+  ];
+  public fieldEnrolled = [
+    { label: 'Fecha de Inscripción', value: 'enrollment_date' },
+    { label: 'Tipo de Inscripción', value: 'enrollemnt_type' },
+    { label: 'Mensualidad', value: 'monthly_payment' },
+    { label: 'Deuda', value: 'debt_str'}
   ];
   trainingSessions : trainingSession[] = [];
 
@@ -41,15 +48,18 @@ export class StudentComponent implements OnInit {
         if(this.student.secondLastName){
           this.student.completeName += ' ' + this.student.secondLastName;
         }
+        this.studentApi.getDebt(this.student).subscribe((debt) => {
+          this.student.debt_str = debt;
+        });
         this.getTrainingSessions();
       });
     
+      
   }
   async getTrainingSessions(){
     await this.trainingSessionService.getTrainingSessionsByIDs(this.student.training_session_ids).then(
       (sessions) => {
         this.trainingSessions = sessions as trainingSession[];
-        console.log(sessions);
       }
     );
   }

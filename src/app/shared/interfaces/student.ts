@@ -17,6 +17,7 @@ export interface Student {
     enrollemnt_type: string;
     monthly_payment: number;
     debt: number;
+    completeName: string;
     debt_str: string;
     training_session_ids: string[];
 }

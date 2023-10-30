@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'enroll-student/:id', component: EnrollStudentComponent,canActivate: [guardGuard] },
   { path: 'view-debtors', component: DebtorsListComponent,canActivate: [guardGuard] },
   { path: 'view-payments', component: PaymentsListComponent,canActivate: [guardGuard] },
+  { path: 'make-payment/:id', component: PaymentsListComponent,canActivate: [guardGuard] },
 ];
 
 @NgModule({

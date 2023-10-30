@@ -22,9 +22,10 @@ export class StudentService {
       student.code = await this.getNextId();
       const studentDocRef = await addDoc(studentCollectionRef, student);
       this.updateNextId(Number(student.code));
-      console.log('Student created with ID: ', studentDocRef.id);
+      return studentDocRef;
     } catch (error) {
       console.error('Error creating student: ', error);
+      return null;
     }
   }
   async getNextId() {
@@ -94,13 +95,22 @@ export class StudentService {
     }
     return debt;
   }
+  getDebt(student: Student): Observable<string> {
+    return new Observable((observer) => {
+      this.paymentApi.getPaymentsArray(student.enrollment_date, today(), student.$id).then((payments) => {
+        let debt = this.calculateDebt(student, payments);
+        student.debt = debt;
+        observer.next(this.getDebtString(student));
+      });
+    });
+  }
   // Get debt string
-  getDebtString(student: Student) {
+  getDebtString(student: Student): string {
     let months = Math.ceil(student.debt/student.monthly_payment);
     return student.debt + 'Bs / ' + months + ' mes' + (months > 1 ? 'es' : '');
   }
   // Fetch single student
-  getStudent(studentId: string) {
+  getStudent(studentId: string): Observable<Student> {
     // return observable with snapshot of student data object Student
     return new Observable((observer) => {
       const studentDocRef = doc(this.firestore, 'students', studentId);
@@ -111,6 +121,7 @@ export class StudentService {
       });
     });
   }
+  
   // Update student
   updateStudent(student: Student, studentId: string) {
     const studentDocRef = doc(this.firestore, 'students', studentId);
