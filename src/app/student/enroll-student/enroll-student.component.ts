@@ -33,7 +33,11 @@ export class EnrollStudentComponent implements OnInit  {
     });
   }
   getTrainingSessionsOrderedByDays() {
-    this.trainingSessions = this.trainingSessionService.getTrainingSessionsOrderedByDays();
+    this.trainingSessionService.getTrainingSessionsOrderedByDays().then(
+      (sessions) => {
+        this.trainingSessions = sessions;
+      }
+    );
   }
   getSessionByDay(day: number) {
     return this.trainingSessions[day];

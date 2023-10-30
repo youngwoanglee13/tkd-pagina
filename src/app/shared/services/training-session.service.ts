@@ -32,7 +32,7 @@ export class TrainingSessionService {
       });
     });
   }
-  getTrainingSessionsOrderedByDays(): trainingSession[][] {
+  getTrainingSessionsOrderedByDays(): Promise<trainingSession[][]> {
     let orderedTrainingSessions : trainingSession[][] = [[], [], [], [], []];
     this.getTrainingSessions().subscribe(
       (sessions) => {
@@ -48,7 +48,10 @@ export class TrainingSessionService {
         }
       }
     );
-    return orderedTrainingSessions;
+    return new Promise<trainingSession[][]>(resolve => {
+      resolve(orderedTrainingSessions);
+    });
+    
   }
   //fetch all training sessions of a student
   async getTrainingSessionsByIDs(ids: string[]) {
