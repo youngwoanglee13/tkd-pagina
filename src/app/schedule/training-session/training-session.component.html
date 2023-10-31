@@ -3,7 +3,8 @@
   <hr>
   <div class="pt-2 pb-2 mt-2">
       <h5 class="text-center">
-        Turno 
+        Turno
+        {{session.dayOfWeek}} 
         {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
         {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
       </h5>
@@ -12,15 +13,16 @@
   <hr>
   <div class="input-group">
     <span class="input-group-text" [style.width]="'170px'">Fecha</span>
-    <input type="date" (change)="selectDate()" class="form-control" [(ngModel)]="date">
+    <input type="date"  class="form-control" (change)="validateDate($event)" [(ngModel)]="date">
+    <!-- (change)="selectDate()" -->
   </div>
   <hr>
   <h5 class="text-center" >
     <div *ngIf="previousAttendance.length==0">
-      Nueva asistencia
+      Nueva asistencia {{session.dayOfWeek}}
     </div>
     <div *ngIf="previousAttendance.length>0">
-      Editar asistencia del {{date}}
+      Editar asistencia del {{session.dayOfWeek}} {{date}}
     </div>
   </h5>
   <div class="container">
@@ -46,7 +48,7 @@
             </tr>
           </tbody>
         </table>
-      <div class="container d-flex justify-content-center">
+      <div class="container d-flex justify-content-center" *ngIf="this.checkedStudents.length>0">
           <button class="btn btn-success " (click)="saveAttendance()" type="button">Guardar Asistencia</button>
       </div>
   </div>
