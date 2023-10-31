@@ -44,12 +44,15 @@ export class AddStudentComponent implements OnInit {
     this.studentForm.reset();
   }
   submitStudentData() {
+    if (this.studentForm.invalid) {
+      alert('* Llenar todos los campos obligatorios');
+      return;
+    }
     this.studentApi.addStudent(this.studentForm.value).then((res) => {
       this.toastr.success(
         this.studentForm.controls['firstName'].value + ' successfully added!'
       );
       this.ResetForm();
-      // redirect to newly added student page
       this.router.navigate(['/view-students', res.id]);
     });
   }
