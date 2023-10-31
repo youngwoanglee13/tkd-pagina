@@ -26,7 +26,7 @@ export class AuthComponent implements  OnInit {
         this.goToSchedule();
       },
       (error) => {
-        console.error(error);
+        alert("Correo o contraseña incorrectos");
       }
     );
   }
