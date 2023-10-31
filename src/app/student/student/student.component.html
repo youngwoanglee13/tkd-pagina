@@ -15,7 +15,7 @@
     <div class="row mb-2 ">
       <div class="btn-group" role="group" aria-label="Basic mixed styles example">
         <button *ngIf="!student.is_enrolled" type="button" routerLink="/enroll-student/{{student.$id}}" class="btn btn-danger">Inscribir</button>
-        <button *ngIf="student.is_enrolled" type="button" class="btn btn-danger">Anular Inscripción</button>
+        <button *ngIf="student.is_enrolled" type="button" class="btn btn-danger" (click)="withdraw()">Anular Inscripción</button>
         <button type="button" routerLink="/edit-student/{{ student.$id }}" class="btn btn-secondary">Editar</button>
         <button *ngIf="student.is_enrolled" type="button" routerLink="/make-payment/{{ student.$id }}" class="btn btn-success">Realizar Pago</button>
       </div>

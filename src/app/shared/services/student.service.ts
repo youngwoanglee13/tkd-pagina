@@ -19,6 +19,7 @@ export class StudentService {
   async addStudent(student: Student) {
     try {
       const studentCollectionRef = collection(this.firestore, 'students');
+      student.is_enrolled = false;
       student.code = await this.getNextId();
       const studentDocRef = await addDoc(studentCollectionRef, student);
       this.updateNextId(Number(student.code));
@@ -170,6 +171,13 @@ export class StudentService {
       });
     });
   }
-
+  // Withdraw student
+  withdrawStudent(student: Student) {
+    const studentDocRef = doc(this.firestore, 'students', student.$id);
+    updateDoc(studentDocRef, 
+      {
+        is_enrolled: false,
+      });
+  }
 }
 
