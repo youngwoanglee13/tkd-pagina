@@ -1,46 +1,62 @@
 <app-navbar></app-navbar>
 <div class="container" *ngIf="student">
-    <div class="container  ">
-        <p class="text-center">{{student.firstName}} {{student.lastName}}</p>
+    <hr>
+    <div class="pt-2 pb-2 mt-2">
+        <h2 class="text-center">Inscribir a {{student.firstName}} {{student.lastName}}</h2>
     </div>
-    <div class="container mb-3">
-        <select class="form-select" aria-label="Default select example" (change)="setSessionsPerWeek($event)">
-            <option value="1" selected>Una sesion</option>
-            <option value="2" >Dos sesiones</option>
-            <option value="3">Tres sesiones</option>
+    <hr>
+    <div class="input-group">
+        <label class="input-group-text" for="inputSessions"  [style.width]="'170px'">Sesiones por semana</label>
+        <select class="form-select" id="inputSessions" (change)="setSessionsPerWeek($event)">
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="5">5</option>
         </select>
-        <input type="date" [(ngModel)]="date">
     </div>
-    <div class="container">
-        <div class="input-group" >
-            <select class="form-select"  [(ngModel)]="selectedDays[0]" (change)="resetDay(0)">
-                <option value="{{i}}" *ngFor="let day of daysOfWeek; let i = index">{{day}}</option>
-            </select>
-            <select class="form-select" (change)="selectSession($event,0)">
-                <option  selected></option>
-                <option  value="{{s.id}}" *ngFor="let s of getSessionByDay(selectedDays[0])">{{s.startTime}}</option>
-            </select>
-        </div>
-        <div class="input-group" *ngIf="weeklySessionCount>1" >
-            <select class="form-select" [(ngModel)]="selectedDays[1]" (change)="resetDay(1)">
-                <option value="{{i}}" *ngFor="let day of daysOfWeek; let i = index">{{day}}</option>
-            </select>
-            <select class="form-select" (change)="selectSession($event,1)">
-                <option  selected></option>
-                <option  value="{{s.id}}" *ngFor="let s of getSessionByDay(selectedDays[1])">{{s.startTime}}</option>
-            </select>
-        </div>
-        <div class="input-group" *ngIf="weeklySessionCount>2" >
-            <select class="form-select"  [(ngModel)]="selectedDays[2]" (change)="resetDay(2)">
-                <option value="{{i}}" *ngFor="let day of daysOfWeek; let i = index">{{day}}</option>
-            </select>
-            <select class="form-select" (change)="selectSession($event,2)">
-                <option  selected></option>
-                <option  value="{{s.id}}" *ngFor="let s of getSessionByDay(selectedDays[2])">{{s.startTime}}</option>
-            </select>
-        </div>
-        <div class="container">
-            <button type="button" class="btn btn-primary" (click)="enrollStudent()">Inscribir</button>
-        </div>
+    <div class="input-group">
+        <span class="input-group-text" [style.width]="'170px'">Fecha de inscripcion</span>
+        <input type="date" class="form-control" [(ngModel)]="date">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" [style.width]="'170px'">Mensualidad</span>
+        <input type="number" class="form-control" [(ngModel)]="monthlyPayment">
+    </div>
+    <hr>
+    <div class="input-group mb-4" >
+        <select class="form-select" (change)="selectDay($event)">
+            <option value="{{i}}" *ngFor="let day of daysOfWeek;let i = index">{{day}}</option>
+        </select>
+        <select class="form-select" (change)="selectOption($event)">
+            <option value="" selected></option>
+            <option value="{{session.id}}" *ngFor="let session of sessionsOptions">
+                {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
+                {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
+            </option>
+            
+        </select>
+        <button type="button" class="btn btn-secondary" (click)="addSession()">Agregar sesion</button>
     </div>
 </div>
+<div *ngIf="selectedSessions.length>0">
+    <div class="container">
+        <div class="pt-2 pb-2">
+          <h5 class="text-center">Horario</h5>
+        </div>
+        <div class="input-group" *ngFor="let session of selectedSessions" >
+          <span class="input-group-text" [style.width]="'170px'">{{session.dayOfWeek}}</span>
+          <div type="text" class="form-control">
+            {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
+            {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
+          </div>
+          <button type="button" class="btn btn-danger" (click)="deleteSession(session.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+              </svg>
+          </button>
+        </div>
+    </div>
+    <div class="container mt-4 text-center">
+        <button type="button " class="btn btn-success" (click)="enrollStudent()">Inscribir</button>
+    </div>  
+</div>
+

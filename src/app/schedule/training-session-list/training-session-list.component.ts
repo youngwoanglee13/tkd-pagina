@@ -10,17 +10,21 @@ import { currentDate } from 'src/app/shared/helpers/date_helper';
   styleUrls: ['./training-session-list.component.scss']
 })
 export class TrainingSessionListComponent implements OnInit {
-  trainingSessions : trainingSession[][] = [[], [], [], [], []];
-  daysOfWeek = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
+  trainingSessions:trainingSession[][] = [];
+  daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
   session : trainingSession;
   constructor(private trainingSessionService: TrainingSessionService, private router: Router) { }
   ngOnInit(): void {
     this.getTrainingSessionsOrderedByDays();
   }
   getTrainingSessionsOrderedByDays() {
-    this.trainingSessions = this.trainingSessionService.getTrainingSessionsOrderedByDays();
+    this.trainingSessionService.getTrainingSessionsOrderedByDays().then(
+      (sessions) => {
+        this.trainingSessions = sessions;
+      }
+    );
   }
   selectSession(id: string){
     this.router.navigate(['session/'+id+'/'+currentDate()]);
-  }
+  } 
 }

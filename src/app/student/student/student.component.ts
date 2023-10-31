@@ -63,4 +63,7 @@ export class StudentComponent implements OnInit {
       }
     );
   }
+  withdraw(){
+    this.studentApi.withdrawStudent(this.student);
+  }
 }

@@ -19,6 +19,7 @@ export class StudentService {
   async addStudent(student: Student) {
     try {
       const studentCollectionRef = collection(this.firestore, 'students');
+      student.is_enrolled = false;
       student.code = await this.getNextId();
       const studentDocRef = await addDoc(studentCollectionRef, student);
       this.updateNextId(Number(student.code));
@@ -151,7 +152,8 @@ export class StudentService {
         is_enrolled: true,
         training_session_ids: student.training_session_ids,
         enrollment_date: student.enrollment_date,
-        enrollemnt_type: student.enrollemnt_type
+        enrollemnt_type: student.enrollemnt_type,
+        monthly_payment: student.monthly_payment
       });
   }
   //fetch all students enrolled in a session
@@ -169,6 +171,13 @@ export class StudentService {
       });
     });
   }
-
+  // Withdraw student
+  withdrawStudent(student: Student) {
+    const studentDocRef = doc(this.firestore, 'students', student.$id);
+    updateDoc(studentDocRef, 
+      {
+        is_enrolled: false,
+      });
+  }
 }
 
