@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
 import { Router } from '@angular/router';
-import { currentDate } from 'src/app/shared/helpers/date_helper';
 
 @Component({
   selector: 'app-training-session-list',
@@ -25,6 +24,6 @@ export class TrainingSessionListComponent implements OnInit {
     );
   }
   selectSession(id: string){
-    this.router.navigate(['session/'+id+'/'+currentDate()]);
+    this.router.navigate(['session/'+id]);
   } 
 }

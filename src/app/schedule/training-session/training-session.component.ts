@@ -20,8 +20,9 @@ export class TrainingSessionComponent implements OnInit {
   previousAttendance: Attendance[] = [];
   studentsList : Student[] = [];
   date ="";
+  daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
   constructor(private route: ActivatedRoute, private trainingSessionService: TrainingSessionService, private studentService: StudentService, private attendanceService: AttendanceService,private router: Router) {
-    this.route.params.subscribe(params => { this.sessionId = params['id']; this.date = params['date'] });
+    this.route.params.subscribe(params => { this.sessionId = params['id'] });
   }
   ngOnInit(): void {
     this.getTrainingSession();
@@ -31,6 +32,7 @@ export class TrainingSessionComponent implements OnInit {
   getTrainingSession(){
     this.trainingSessionService.getTrainingSession(this.sessionId).subscribe(session => {
       this.session = session;
+      this.getNextDayOfWeek();
     });
   }
   getSessionStudents(){
@@ -88,7 +90,6 @@ export class TrainingSessionComponent implements OnInit {
   }
   selectDate(){
     this.checkedStudents = [];
-    this.router.navigate(['session/'+this.sessionId+'/'+this.date]);
     this.getPreviousAttendanceList();
   }
   updateAttendanceList(){
@@ -110,4 +111,29 @@ export class TrainingSessionComponent implements OnInit {
     this.attendanceService.updateAttendances(newAttendancesList,deleteAttendancesList);
     this.getPreviousAttendanceList();
   }
+  validateDate(input: any) {
+    const selectedDate = new Date(input.target.value);
+    const dayOfWeek = selectedDate.getDay();
+    if (this.daysOfWeek[dayOfWeek] !== this.session.dayOfWeek) {
+      alert("Selecciona un " + this.session.dayOfWeek);
+      this.getNextDayOfWeek();
+    }
+    this.selectDate();
+  }
+  getNextDayOfWeek() {
+    const today = new Date();
+    const dayOfWeek = this.daysOfWeek.indexOf(this.session.dayOfWeek);
+    const todayDayOfWeek = today.getDay()-1;
+    if (dayOfWeek == todayDayOfWeek) {
+      this.date = today.toISOString().slice(0, 10);
+      return;
+    }
+    let distance = dayOfWeek - todayDayOfWeek;
+    if (distance < 0) {
+      distance += 7;
+    }
+    const nextDay = new Date(today.setDate(today.getDate() + distance));
+    this.date = nextDay.toISOString().slice(0, 10);
+  }
+  
 }
