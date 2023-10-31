@@ -40,7 +40,7 @@ export class TrainingSessionComponent implements OnInit {
       this.studentsList = students;
       for (let student of students){
         this.studentService.getDebt(student).subscribe((debt) => {
-          student.debt_str = debt;
+          student.debt_str = debt['str'];
         });
       }
     });

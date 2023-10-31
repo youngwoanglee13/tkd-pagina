@@ -60,6 +60,10 @@ export class EditStudentComponent {
     this.location.back();
   }
   updateForm() {
+    if (this.editForm.invalid) {
+      alert('* Llenar todos los campos obligatorios');
+      return;
+    }
     this.studentApi.updateStudent(this.editForm.value, this.id);
     this.toastr.success(
       this.editForm.controls['firstName'].value + ' updated successfully'

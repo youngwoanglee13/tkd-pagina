@@ -49,8 +49,20 @@ export class StudentComponent implements OnInit {
           this.student.completeName += ' ' + this.student.secondLastName;
         }
         this.studentApi.getDebt(this.student).subscribe((debt) => {
-          this.student.debt_str = debt;
+          this.student.debt_str = debt['str'];
+          this.student.debt = debt['val'];
+          if(debt['val'] < 0) {
+            this.student.debt = -debt['val'];
+            if(!this.fieldEnrolled.includes({ label: 'Saldo a favor', value: 'debt'}))
+              this.fieldEnrolled.push({ label: 'Saldo a favor', value: 'debt'});
+          }
+          else {
+            if(this.fieldEnrolled.includes({ label: 'Saldo a favor', value: 'debt'}))
+              this.fieldEnrolled.pop();
+          }
         });
+        console.log(this.student.debt);
+        
         this.getTrainingSessions();
       });
     

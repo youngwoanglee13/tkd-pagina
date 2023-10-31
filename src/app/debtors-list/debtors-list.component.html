@@ -1,9 +1,14 @@
 <app-navbar></app-navbar>
 <div class="container mb-4">
+  <hr>
+  <div class="pt-2 pb-2">
+      <h2 class="text-center">Deudores Morosos</h2>
+  </div>
+  <hr>
     <div class="input-group mb-4">
-      <input type="text" class="form-control" placeholder="Buscar por nombre">
+      <input type="text" [(ngModel)]="searchTerm" (input)="searchStudents()" class="form-control" placeholder="Buscar por nombre">
       <div class="input-group-append">
-        <button class="btn btn-primary">Buscar</button>
+        <button class="btn btn-primary" (click)="reset()">Limpiar</button>
       </div>
     </div>
     <div class="table-responsive">
