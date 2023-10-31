@@ -63,7 +63,10 @@ export class StudentComponent implements OnInit {
       }
     );
   }
-  withdraw(){
+  withdrawStudent(){
+    if (window.confirm('Estás seguro que quieres anular la suscripcion de ' + this.student.firstName + '?')) { 
     this.studentApi.withdrawStudent(this.student);
+    }
   }
+
 }
