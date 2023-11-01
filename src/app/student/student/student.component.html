@@ -25,7 +25,11 @@
       <span class="input-group-text" [style.width]="'170px'">{{field.label}}</span>
       <div type="text" aria-label="First name" class="form-control">{{student[field.value]}}</div>
     </div>
-
+    <div class="input-group" *ngFor="let contact of student.contacts" >
+      <span class="input-group-text" [style.width]="'170px'">{{contact.name}}</span>
+      <div type="text" class="form-control">{{contact.phone}}</div>
+    </div>
+        
     <div *ngIf="student.is_enrolled">
       <div class="input-group" *ngFor="let field of fieldEnrolled" >
         <span class="input-group-text" [style.width]="'170px'">{{field.label}}</span>

@@ -57,7 +57,7 @@ export class StudentComponent implements OnInit {
             if(!this.fieldEnrolled.includes({ label: 'Saldo a favor', value: 'debt'}))
               this.fieldEnrolled.push({ label: 'Saldo a favor', value: 'debt'});
           }
-          else {
+          else { 
             if(this.fieldEnrolled.includes({ label: 'Saldo a favor', value: 'debt'}))
               this.fieldEnrolled.pop();
           }
@@ -79,5 +79,6 @@ export class StudentComponent implements OnInit {
     this.studentApi.withdrawStudent(this.student);
     }
   }
+
 
 }

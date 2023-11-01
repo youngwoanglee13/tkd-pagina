@@ -180,7 +180,8 @@ export class StudentService {
         birthdate: student.birthdate,
         gender: student.gender,
         grade: student.grade,
-        CI: student.CI
+        CI: student.CI,
+        contacts: student.contacts
       });
   }
   // Delete student

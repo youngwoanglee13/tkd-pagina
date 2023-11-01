@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../../shared/services/student.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -37,11 +37,12 @@ export class AddStudentComponent implements OnInit {
       gender: ['', [Validators.required]],
       grade: ['', [Validators.required]],
       CI: ['',],
-      // mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      contacts: this.fb.array([])
     });
   }
   ResetForm() {
     this.studentForm.reset();
+    this.contacts.clear();
   }
   submitStudentData() {
     if (this.studentForm.invalid) {
@@ -58,5 +59,18 @@ export class AddStudentComponent implements OnInit {
   }
   goBack() {
     this.location.back();
+  }
+  addNewContactField() {
+    const contact = this.fb.group({
+      name: ['', [Validators.required]],
+      phone: ['', [Validators.required]]
+    });
+    this.contacts.push(contact);
+  }
+  get contacts() {
+    return this.studentForm.get('contacts') as FormArray;
+  }
+  removeContact(index: number) {
+    this.contacts.removeAt(index);
   }
 }
