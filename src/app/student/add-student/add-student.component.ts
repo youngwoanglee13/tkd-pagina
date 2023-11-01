@@ -67,9 +67,6 @@ export class AddStudentComponent implements OnInit {
     });
     this.contacts.push(contact);
   }
-  addContact() {
-    console.log('add contact');
-  }
   get contacts() {
     return this.studentForm.get('contacts') as FormArray;
   }
