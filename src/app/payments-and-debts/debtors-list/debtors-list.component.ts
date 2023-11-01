@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Student } from '../shared/interfaces/student';
+import { Student } from '../../shared/interfaces/student';
 import { ToastrService } from 'ngx-toastr';
-import { StudentService } from '../shared/services/student.service';
+import { StudentService } from '../../shared/services/student.service';
 import { calculateAge } from 'src/app/shared/helpers/date_helper';
 
 @Component({

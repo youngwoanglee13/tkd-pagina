@@ -69,6 +69,8 @@ export class StudentService {
     return new Observable((observer) => {
       this.getStudents().subscribe((students) => {
         const debtors: Student[] = [];
+        let processedCount = 0; // Keep track of processed students
+
         students.forEach((student) => {
           if (student.is_enrolled && !student.is_deleted) {
             this.paymentApi.getPaymentsArray(student.enrollment_date, today(), student.$id).then((payments) => {
@@ -77,13 +79,31 @@ export class StudentService {
               if (student.debt > 0) {
                 debtors.push(student);
               }
+
+              processedCount++; // Increment processed count
+
+              // Check if all students have been processed
+              if (processedCount === students.length) {
+                // Sort the debtors array by debt in decreasing order
+                debtors.sort((a, b) => b.debt - a.debt);
+                observer.next(debtors);
+              }
             });
+          } else {
+            processedCount++; // Increment processed count for non-debtors
+
+            // Check if all students have been processed
+            if (processedCount === students.length) {
+              // Sort the debtors array by debt in decreasing order
+              debtors.sort((a, b) => b.debt - a.debt);
+              observer.next(debtors);
+            }
           }
         });
-        observer.next(debtors);
       });
     });
   }
+
   // Calculate debt
   calculateDebt(student: Student, payments?: Payment[]) {
     let todayDate = today();

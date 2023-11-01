@@ -60,9 +60,7 @@ export class StudentComponent implements OnInit {
             if(this.fieldEnrolled.includes({ label: 'Saldo a favor', value: 'debt'}))
               this.fieldEnrolled.pop();
           }
-        });
-        console.log(this.student.debt);
-        
+        });        
         this.getTrainingSessions();
       });
     
