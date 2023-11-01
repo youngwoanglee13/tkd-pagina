@@ -3,6 +3,7 @@ import { StudentService } from '../../shared/services/student.service'
 import { Student } from '../../shared/interfaces/student'; 
 import { ToastrService } from 'ngx-toastr';
 import { calculateAge } from 'src/app/shared/helpers/date_helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-list',
@@ -14,10 +15,12 @@ export class StudentListComponent implements OnInit {
   students: Student[];
   private myStudents: Student[];
   searchTerm: string = '';
+  accessCode: string = '';
   calculateAge: (birthdate: string) => number;
   constructor(
     public studentApi: StudentService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private router: Router
     ){ 
       this.calculateAge = calculateAge;
     }
@@ -53,7 +56,20 @@ export class StudentListComponent implements OnInit {
       });
     }
   }
-
+  accessStudentByCode() {
+    const codeNumber = Number(this.accessCode);
+    this.studentApi.getStudentByCode(codeNumber).subscribe(
+      (student) => {
+        if(student) {
+          this.router.navigate(['/view-students', student.$id]);
+        }
+        else {
+          this.toastr.error('No se encontró ningún estudiante con ese código');
+        }
+      },
+      error => console.log(error)
+    );
+  }
   reset()
   {
     this.searchTerm = '';
