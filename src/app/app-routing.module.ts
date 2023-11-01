@@ -11,6 +11,7 @@ import { guardGuard } from './guard/guard.guard';
 import { EnrollStudentComponent } from './student/enroll-student/enroll-student.component';
 import { DebtorsListComponent } from './debtors-list/debtors-list.component';
 import { PaymentsListComponent } from './payments-list/payments-list.component';
+import { DocumentGeneratorComponent } from './document-generator/document-generator.component';
 
 const routes: Routes = [
   { path : '', redirectTo: '/signin', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'view-debtors', component: DebtorsListComponent,canActivate: [guardGuard] },
   { path: 'view-payments', component: PaymentsListComponent,canActivate: [guardGuard] },
   { path: 'make-payment/:id', component: PaymentsListComponent,canActivate: [guardGuard] },
+  { path: 'generate-document/:id', component: DocumentGeneratorComponent,canActivate: [guardGuard] },
 ];
 
 @NgModule({

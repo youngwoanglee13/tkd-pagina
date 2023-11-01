@@ -40,14 +40,7 @@ export class StudentComponent implements OnInit {
       .getStudent(id)
       .subscribe((data) => {
         this.student = data;
-        this.student.completeName = this.student.firstName;
-        if(this.student.middleName){
-          this.student.completeName += ' ' + this.student.middleName;
-        }
-        this.student.completeName += ' ' + this.student.lastName;
-        if(this.student.secondLastName){
-          this.student.completeName += ' ' + this.student.secondLastName;
-        }
+        this.student.completeName = this.studentApi.getCompleteName(this.student);
         this.studentApi.getDebt(this.student).subscribe((debt) => {
           this.student.debt_str = debt;
         });

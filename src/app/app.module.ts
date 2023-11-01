@@ -22,6 +22,7 @@ import { EnrollStudentComponent } from './student/enroll-student/enroll-student.
 import { DebtorsListComponent } from './debtors-list/debtors-list.component';
 import { PaymentsListComponent } from './payments-list/payments-list.component';
 import { MakePaymentComponent } from './make-payment/make-payment.component';
+import { DocumentGeneratorComponent } from './document-generator/document-generator.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MakePaymentComponent } from './make-payment/make-payment.component';
     EnrollStudentComponent,
     DebtorsListComponent,
     PaymentsListComponent,
-    MakePaymentComponent
+    MakePaymentComponent,
+    DocumentGeneratorComponent
   ],
   imports: [  
     BrowserModule,

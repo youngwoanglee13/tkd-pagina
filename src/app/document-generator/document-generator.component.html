@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+<button class="btn btn-sm btn-outline-secondary" (click)="goBack()">
+    Atrás
+   </button>
+   
+<div class="container mb-4" *ngIf="student">
+    <hr>
+    <div class="text-center">
+      <div class="btn  position-relative">
+        <span>
+          <span class="h2">Generar Deslinde de Respondabilidades de {{ student.firstName }}</span>
+        </span>
+      </div>
+    </div>
+    <hr>
+    <!-- Formulario -->
+    <form [formGroup]="form">
+        <div class="form-group">
+            <label for="completeName">Nombre Completo:</label>
+            <input type="text" class="form-control" id="completeName" formControlName="completeName">
+        </div>
+
+        <div class="form-group">
+            <label for="CI">C.I.:</label>
+            <input type="text" class="form-control" id="CI" formControlName="CI">
+        </div>
+
+        <div class="form-group">
+            <label for="birthdate">Fecha de Nacimiento:</label>
+            <input type="date" class="form-control" id="birthdate" formControlName="birthdate">
+        </div>
+
+        <div class="form-group">
+            <label for="birthplace">Lugar de Nacimiento:</label>
+            <input type="text" class="form-control" id="birthplace" formControlName="birthplace">
+        </div>
+
+        <div class="form-group">
+            <label for="contactNumbers">Teléfonos de Contacto:</label>
+            <input type="text" class="form-control" id="contactNumbers" formControlName="contactNumbers">
+        </div>
+
+        <!-- Sección de autorización para menores -->
+        <div *ngIf="minorAuthorization">
+            <h5>Autorización para Menores de Edad</h5>
+            <div class="form-group">
+                <label for="guardianName">Yo (nombre del tutor):</label>
+                <input type="text" class="form-control" id="guardianName" formControlName="guardianName">
+            </div>
+
+            <div class="form-group">
+                <label for="guardianCI">C.I. del Tutor:</label>
+                <input type="text" class="form-control" id="guardianCI" formControlName="guardianCI">
+            </div>
+
+            <!-- ... puedes seguir agregando los demás campos aquí ... -->
+
+            <div class="form-group">
+                <label for="ciNumber">Parentezco:</label>
+                <input type="text" class="form-control" id="ciNumber" formControlName="relationship">
+            </div>
+        </div>
+
+        <!-- Checkbox para mostrar/ocultar la sección de autorización para menores -->
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" (change)="toggleMinorAuthorization()">
+            <label class="form-check-label" for="flexCheckDefault">
+                Autorización para Menores de Edad
+            </label>
+        </div>
+
+        <div class="mt-4">
+            <button (click)="generateDoc()" class="btn btn-primary">Generar y Descargar</button>
+        </div>
+    </form>
+</div>

@@ -179,5 +179,17 @@ export class StudentService {
         is_enrolled: false,
       });
   }
+
+  getCompleteName(student: Student): string {
+    let completeName = student.firstName;
+    if(student.middleName){
+      completeName += ' ' + student.middleName;
+    }
+    completeName += ' ' + student.lastName;
+    if(student.secondLastName){
+      completeName += ' ' + student.secondLastName;
+    }
+    return completeName;
+  }
 }
 
