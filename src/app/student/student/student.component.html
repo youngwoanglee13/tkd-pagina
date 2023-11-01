@@ -40,8 +40,10 @@
       <div class="input-group" *ngFor="let session of trainingSessions" >
         <span class="input-group-text" [style.width]="'170px'">{{session.dayOfWeek}}</span>
         <div type="text" aria-label="First name" class="form-control">
-          {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
-          {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
+          <a routerLink="/session/{{ session.id }}">
+            {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
+            {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
+          </a>
         </div>
       </div>
     </div>

@@ -33,6 +33,7 @@
               <th scope="col">Nombre</th>
               <th scope="col">Grado</th>
               <th scope="col">Edad</th>
+              <th scope="col">Deuda</th>
             </tr>
           </thead>
           <tbody>
@@ -42,9 +43,10 @@
                       <input [checked]="checkedStudents.includes(student.$id)" class="form-check-input me-1" type="checkbox" value="" id="{{student.$id}}" (change)="checkStudent(student.$id)">
                   </div>
               </th>
-              <td>{{student.firstName}} {{student.lastName}}</td>
-              <td>{{student.grade}}</td>
-              <td>{{calculateAge(student.birthdate)}}</td>
+              <td><a routerLink="/view-students/{{ student.$id }}">{{ student.firstName }} {{ student.lastName }}</a></td>
+              <td>{{ student.grade }}</td>
+              <td>{{ calculateAge(student.birthdate) }}</td>
+              <td>{{ student.debt_str }}</td>
             </tr>
           </tbody>
         </table>

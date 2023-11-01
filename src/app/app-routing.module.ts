@@ -9,8 +9,9 @@ import { TrainingSessionListComponent } from './schedule/training-session-list/t
 import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
 import { guardGuard } from './guard/guard.guard';
 import { EnrollStudentComponent } from './student/enroll-student/enroll-student.component';
-import { DebtorsListComponent } from './debtors-list/debtors-list.component';
-import { PaymentsListComponent } from './payments-list/payments-list.component';
+import { DebtorsListComponent } from './payments-and-debts/debtors-list/debtors-list.component';
+import { PaymentsListComponent } from './payments-and-debts/payments-list/payments-list.component';
+import { MakePaymentComponent } from './payments-and-debts/make-payment/make-payment.component';
 
 const routes: Routes = [
   { path : '', redirectTo: '/signin', pathMatch: 'full' },
@@ -24,7 +25,7 @@ const routes: Routes = [
   { path: 'enroll-student/:id', component: EnrollStudentComponent,canActivate: [guardGuard] },
   { path: 'view-debtors', component: DebtorsListComponent,canActivate: [guardGuard] },
   { path: 'view-payments', component: PaymentsListComponent,canActivate: [guardGuard] },
-  { path: 'make-payment/:id', component: PaymentsListComponent,canActivate: [guardGuard] },
+  { path: 'make-payment/:id', component: MakePaymentComponent,canActivate: [guardGuard] },
 ];
 
 @NgModule({
