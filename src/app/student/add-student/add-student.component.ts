@@ -71,7 +71,6 @@ export class AddStudentComponent implements OnInit {
     console.log('add contact');
   }
   get contacts() {
-    console.log(this.studentForm.get('contacts'));
     return this.studentForm.get('contacts') as FormArray;
   }
   removeContact(index: number) {
