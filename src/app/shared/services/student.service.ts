@@ -144,6 +144,28 @@ export class StudentService {
       });
     });
   }
+  // Fetch single student by code
+  getStudentByCode(code: number): Observable<Student> {
+    // return observable with snapshot of student data object Student
+    return new Observable((observer) => {
+      const q = query(collection(this.firestore, "students"), where("code", "==", code));
+      onSnapshot(q, (querySnapshot) => {
+        const students: Student[] = [];
+        querySnapshot.forEach((doc) => {
+          const student = doc.data();
+          student.$id = doc.id;
+          students.push(student as Student);
+        });
+        console.log("asdfasdf");
+        console.log(students);
+        console.log(code);
+        if(students.length > 0)
+          observer.next(students[0]);
+        else
+          observer.next(null);
+      });
+    });
+  }
   
   // Update student
   updateStudent(student: Student, studentId: string) {

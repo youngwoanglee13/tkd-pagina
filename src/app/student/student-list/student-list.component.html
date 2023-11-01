@@ -9,9 +9,9 @@
     <a routerLink="/register-student" class="btn btn-success mx-1">Nuevo estudiante</a>
   </div>
   <div class="input-group mb-2">
-    <input type="text" class="form-control" placeholder="Código de Estudiante">
+    <input type="text" [(ngModel)]="accessCode" class="form-control" placeholder="Código de Estudiante">
     <div class="input-group-append">
-      <button class="btn btn-primary">Acceder</button>
+      <button class="btn btn-primary" (click)="accessStudentByCode()">Acceder</button>
     </div>
   </div>
 

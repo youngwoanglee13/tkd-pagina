@@ -14,6 +14,7 @@ export class StudentComponent implements OnInit {
   public student: Student;
   public fields = [
     { label: 'Nombre Completo', value: 'completeName' },
+    { label: 'Código de Estudiante', value: 'code' },
     { label: 'Email', value: 'email' },
     { label: 'Fecha de Nacimiento', value: 'birthdate' },
     { label: 'Sexo', value: 'gender' },
