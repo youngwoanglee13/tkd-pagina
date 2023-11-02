@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../../shared/services/student.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './edit-student.component.html',
   styleUrls: ['./edit-student.component.scss']
 })
-export class EditStudentComponent {
+export class EditStudentComponent implements OnInit {
   public editForm: FormGroup;
   private data_fields: String[] = ['firstName', 'middleName', 'lastName', 'secondLastName', 'email', 'birthdate', 'gender', 'grade', 'CI'];
   private  id: string;
@@ -18,7 +18,6 @@ export class EditStudentComponent {
     public studentApi: StudentService,
     public fb: FormBuilder,
     private location: Location,
-    private router: Router,
     private actRoute: ActivatedRoute,
     public toastr: ToastrService
   ) {}
@@ -35,6 +34,7 @@ export class EditStudentComponent {
           }
         }
         this.editForm.setValue(data_for_form);
+        this.setContacts(data.contacts);
       });
   }
   updateStudentData() {
@@ -53,17 +53,44 @@ export class EditStudentComponent {
       gender: ['', [Validators.required]],
       grade: ['', [Validators.required]],
       CI: ['',],
-      // mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     });
+    
   }
   goBack() {
     this.location.back();
   }
   updateForm() {
+    if (this.editForm.invalid) {
+      alert('* Llenar todos los campos obligatorios');
+      return;
+    }
     this.studentApi.updateStudent(this.editForm.value, this.id);
     this.toastr.success(
       this.editForm.controls['firstName'].value + ' updated successfully'
     );
     this.goBack();
+  }
+  setContacts(contacts){
+    this.editForm.setControl('contacts',this.fb.array([]));
+    const control = <FormArray>this.editForm.controls['contacts'];
+    for(let contact of contacts){
+      control.push(this.fb.group({
+        name: [contact.name, [Validators.required]],
+        phone: [contact.phone, [Validators.required]]
+      }));
+    }
+  }
+  addNewContactField() {
+    const control = <FormArray>this.editForm.controls['contacts'];
+    control.push(this.fb.group({
+      name: ["", [Validators.required]],
+      phone: ["", [Validators.required]]
+    }));
+  }
+  get contacts() {
+    return this.editForm.get('contacts') as FormArray;
+  }
+  removeContact(index: number) {
+    this.contacts.removeAt(index);
   }
 }

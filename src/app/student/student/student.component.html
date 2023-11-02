@@ -25,7 +25,11 @@
       <span class="input-group-text" [style.width]="'170px'">{{field.label}}</span>
       <div type="text" aria-label="First name" class="form-control">{{student[field.value]}}</div>
     </div>
-
+    <div class="input-group" *ngFor="let contact of student.contacts" >
+      <span class="input-group-text" [style.width]="'170px'">{{contact.name}}</span>
+      <div type="text" class="form-control">{{contact.phone}}</div>
+    </div>
+        
     <div *ngIf="student.is_enrolled">
       <div class="input-group" *ngFor="let field of fieldEnrolled" >
         <span class="input-group-text" [style.width]="'170px'">{{field.label}}</span>
@@ -40,8 +44,10 @@
       <div class="input-group" *ngFor="let session of trainingSessions" >
         <span class="input-group-text" [style.width]="'170px'">{{session.dayOfWeek}}</span>
         <div type="text" aria-label="First name" class="form-control">
-          {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
-          {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
+          <a routerLink="/session/{{ session.id }}">
+            {{session.startTime.slice(0, 2)}}:{{session.startTime.slice(2, 4)}} -
+            {{session.endTime.slice(0, 2)}}:{{session.endTime.slice(2, 4)}}
+          </a>
         </div>
       </div>
     </div>

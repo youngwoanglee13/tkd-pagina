@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, getDocs,  query, where, doc, deleteDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Payment } from '../interfaces/payment';
+import { today } from '../helpers/date_helper';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,13 @@ import { Payment } from '../interfaces/payment';
 export class PaymentService {
 
   constructor(private firestore: Firestore) { }
+  addPayment(payment: Payment) {
+    payment.date = today();
+    const paymentCollectionRef = collection(this.firestore, 'payments');
+    return addDoc(paymentCollectionRef, payment);
+  }
   // Get payments between dates
-  getPayments(startDate: string, endDate: string): Observable<Payment[]> {
+  getPayments(startDate: string = "0000-00-00", endDate: string = today()): Observable<Payment[]> {
     const q = collection(this.firestore, "payments");
     return new Observable((observer) => {
       onSnapshot(q, (querySnapshot) => {
@@ -22,6 +28,7 @@ export class PaymentService {
             payments.push(payment as Payment);
           }
         });
+        payments.sort((a, b) => b.date.localeCompare(a.date));
         observer.next(payments);
       });
     });
@@ -38,6 +45,12 @@ export class PaymentService {
         payments.push(payment as Payment);
       }
     });
+    payments.sort((a, b) => b.date.localeCompare(a.date));
     return payments;
+  }
+
+  deletePayment(paymentId: string) {
+    const paymentDocRef = doc(this.firestore, 'payments', paymentId);
+    deleteDoc(paymentDocRef);
   }
 }

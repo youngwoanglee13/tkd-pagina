@@ -6,7 +6,7 @@ export interface Student {
     lastName: string;
     secondLastName: string;
     email: string;
-    contactNumbers: {number: string, type: string}[];
+    contacts: {name: string, phone: number}[];
     birthdate: string;
     gender: string;
     grade: string;

@@ -38,6 +38,11 @@ export class TrainingSessionComponent implements OnInit {
   getSessionStudents(){
     this.studentService.getStudentsWithTrainingSession(this.sessionId).subscribe(students => {
       this.studentsList = students;
+      for (let student of students){
+        this.studentService.getDebt(student).subscribe((debt) => {
+          student.debt_str = debt['str'];
+        });
+      }
     });
   }
   getPreviousAttendanceList(){

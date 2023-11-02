@@ -14,6 +14,7 @@ export class StudentComponent implements OnInit {
   public student: Student;
   public fields = [
     { label: 'Nombre Completo', value: 'completeName' },
+    { label: 'Código de Estudiante', value: 'code' },
     { label: 'Email', value: 'email' },
     { label: 'Fecha de Nacimiento', value: 'birthdate' },
     { label: 'Sexo', value: 'gender' },
@@ -42,8 +43,18 @@ export class StudentComponent implements OnInit {
         this.student = data;
         this.student.completeName = this.studentApi.getCompleteName(this.student);
         this.studentApi.getDebt(this.student).subscribe((debt) => {
-          this.student.debt_str = debt;
-        });
+          this.student.debt_str = debt['str'];
+          this.student.debt = debt['val'];
+          if(debt['val'] < 0) {
+            this.student.debt = -debt['val'];
+            if(!this.fieldEnrolled.includes({ label: 'Saldo a favor', value: 'debt'}))
+              this.fieldEnrolled.push({ label: 'Saldo a favor', value: 'debt'});
+          }
+          else { 
+            if(this.fieldEnrolled.includes({ label: 'Saldo a favor', value: 'debt'}))
+              this.fieldEnrolled.pop();
+          }
+        });        
         this.getTrainingSessions();
       });
     
@@ -61,5 +72,6 @@ export class StudentComponent implements OnInit {
     this.studentApi.withdrawStudent(this.student);
     }
   }
+
 
 }

@@ -69,6 +69,8 @@ export class StudentService {
     return new Observable((observer) => {
       this.getStudents().subscribe((students) => {
         const debtors: Student[] = [];
+        let processedCount = 0; // Keep track of processed students
+
         students.forEach((student) => {
           if (student.is_enrolled && !student.is_deleted) {
             this.paymentApi.getPaymentsArray(student.enrollment_date, today(), student.$id).then((payments) => {
@@ -77,13 +79,31 @@ export class StudentService {
               if (student.debt > 0) {
                 debtors.push(student);
               }
+
+              processedCount++; // Increment processed count
+
+              // Check if all students have been processed
+              if (processedCount === students.length) {
+                // Sort the debtors array by debt in decreasing order
+                debtors.sort((a, b) => b.debt - a.debt);
+                observer.next(debtors);
+              }
             });
+          } else {
+            processedCount++; // Increment processed count for non-debtors
+
+            // Check if all students have been processed
+            if (processedCount === students.length) {
+              // Sort the debtors array by debt in decreasing order
+              debtors.sort((a, b) => b.debt - a.debt);
+              observer.next(debtors);
+            }
           }
         });
-        observer.next(debtors);
       });
     });
   }
+
   // Calculate debt
   calculateDebt(student: Student, payments?: Payment[]) {
     let todayDate = today();
@@ -96,17 +116,19 @@ export class StudentService {
     }
     return debt;
   }
-  getDebt(student: Student): Observable<string> {
+  getDebt(student: Student): Observable<any> {
     return new Observable((observer) => {
       this.paymentApi.getPaymentsArray(student.enrollment_date, today(), student.$id).then((payments) => {
         let debt = this.calculateDebt(student, payments);
         student.debt = debt;
-        observer.next(this.getDebtString(student));
+        observer.next({'val': debt, 'str': this.getDebtString(student)});
       });
     });
   }
   // Get debt string
   getDebtString(student: Student): string {
+    if(isNaN(student.debt)) return 'Error';
+    if(student.debt <= 0) return 'Al día';
     let months = Math.ceil(student.debt/student.monthly_payment);
     return student.debt + 'Bs / ' + months + ' mes' + (months > 1 ? 'es' : '');
   }
@@ -119,6 +141,28 @@ export class StudentService {
         const student = doc.data();
         student.$id = doc.id;
         observer.next(student as Student);
+      });
+    });
+  }
+  // Fetch single student by code
+  getStudentByCode(code: number): Observable<Student> {
+    // return observable with snapshot of student data object Student
+    return new Observable((observer) => {
+      const q = query(collection(this.firestore, "students"), where("code", "==", code));
+      onSnapshot(q, (querySnapshot) => {
+        const students: Student[] = [];
+        querySnapshot.forEach((doc) => {
+          const student = doc.data();
+          student.$id = doc.id;
+          students.push(student as Student);
+        });
+        console.log("asdfasdf");
+        console.log(students);
+        console.log(code);
+        if(students.length > 0)
+          observer.next(students[0]);
+        else
+          observer.next(null);
       });
     });
   }
@@ -136,7 +180,8 @@ export class StudentService {
         birthdate: student.birthdate,
         gender: student.gender,
         grade: student.grade,
-        CI: student.CI
+        CI: student.CI,
+        contacts: student.contacts
       });
   }
   // Delete student

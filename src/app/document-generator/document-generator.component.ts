@@ -6,6 +6,7 @@ import { Student } from '../shared/interfaces/student';
 import { StudentService } from '../shared/services/student.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { spanishFormat } from '../shared/helpers/date_helper';
 
 @Component({
   selector: 'app-document-generator',
@@ -60,6 +61,11 @@ export class DocumentGeneratorComponent {
 
   toggleMinorAuthorization() {
     this.minorAuthorization = !this.minorAuthorization;
+    this.form.patchValue({
+        guardianName: '',
+        guardianCI: '',
+        relationship: '',
+    });
   }
   
   generateDoc(): void {
@@ -76,7 +82,7 @@ export class DocumentGeneratorComponent {
       const data = {
         nombre_completo: formData.completeName,
         CI: formData.CI,
-        fecha_nacimiento: formData.birthdate,
+        fecha_nacimiento: spanishFormat(formData.birthdate),
         lugar_nacimiento: formData.birthplace,
         telefonos_de_contacto: formData.contactNumbers,
         nombre_guardian: formData.guardianName,
