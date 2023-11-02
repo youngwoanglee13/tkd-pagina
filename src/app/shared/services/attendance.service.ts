@@ -61,4 +61,19 @@ export class AttendanceService {
       throw error; 
     });
   }
+  getAttendancesByStudentId(studentId: string): Observable<Attendance[]> {
+    const attendanceCollectionRef = collection(this.firestore, 'attendance');
+    const q = query(attendanceCollectionRef, where('student_id', '==', studentId));
+    return new Observable(observer => {
+      onSnapshot(q, (querySnapshot) => {
+        const attendance: Attendance[] = [];
+        querySnapshot.forEach((doc) => {
+          const attendanceDoc = doc.data();
+          attendanceDoc.id = doc.id;
+          attendance.push(attendanceDoc as Attendance);
+        });
+        observer.next(attendance);
+      });
+    });
+  }
 }

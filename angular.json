@@ -31,6 +31,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/tkd",
+            "allowedCommonJsDependencies": ["docxtemplater", "pizzip"],
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
