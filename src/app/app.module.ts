@@ -19,6 +19,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TrainingSessionListComponent } from './schedule/training-session-list/training-session-list.component';
 import { TrainingSessionComponent } from './schedule/training-session/training-session.component';
 import { EnrollStudentComponent } from './student/enroll-student/enroll-student.component';
+import { DocumentGeneratorComponent } from './document-generator/document-generator.component';
 import { DebtorsListComponent } from './payments-and-debts/debtors-list/debtors-list.component';
 import { PaymentsListComponent } from './payments-and-debts/payments-list/payments-list.component';
 import { MakePaymentComponent } from './payments-and-debts/make-payment/make-payment.component';
@@ -37,7 +38,8 @@ import { MakePaymentComponent } from './payments-and-debts/make-payment/make-pay
     EnrollStudentComponent,
     DebtorsListComponent,
     PaymentsListComponent,
-    MakePaymentComponent
+    MakePaymentComponent,
+    DocumentGeneratorComponent
   ],
   imports: [  
     BrowserModule,

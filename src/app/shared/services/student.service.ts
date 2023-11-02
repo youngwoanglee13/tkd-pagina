@@ -156,9 +156,6 @@ export class StudentService {
           student.$id = doc.id;
           students.push(student as Student);
         });
-        console.log("asdfasdf");
-        console.log(students);
-        console.log(code);
         if(students.length > 0)
           observer.next(students[0]);
         else
@@ -223,6 +220,18 @@ export class StudentService {
       {
         is_enrolled: false,
       });
+  }
+
+  getCompleteName(student: Student): string {
+    let completeName = student.firstName;
+    if(student.middleName){
+      completeName += ' ' + student.middleName;
+    }
+    completeName += ' ' + student.lastName;
+    if(student.secondLastName){
+      completeName += ' ' + student.secondLastName;
+    }
+    return completeName;
   }
 }
 

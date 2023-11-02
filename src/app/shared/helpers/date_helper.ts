@@ -27,3 +27,9 @@ export function today(): string {
     const todayString = today.toISOString().split('T')[0];
     return todayString;
 }
+
+export function spanishFormat(date: string): string {
+    const dateObject = new Date(date);
+    const dateFormatted = format(dateObject, 'dd/MM/yyyy');
+    return dateFormatted;
+}
