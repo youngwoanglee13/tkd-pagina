@@ -5,7 +5,7 @@ import { ActivatedRoute} from '@angular/router';
 import { Student } from '../shared/interfaces/student';
 import { StudentService } from '../shared/services/student.service';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { spanishFormat } from '../shared/helpers/date_helper';
 
 @Component({
@@ -34,7 +34,6 @@ export class DocumentGeneratorComponent {
       CI: [''],
       birthdate: [''],
       birthplace: [''],
-      contactNumbers: [''],
       guardianName: [''],
       guardianCI: [''],
       relationship: [''],
@@ -56,6 +55,7 @@ export class DocumentGeneratorComponent {
           contactNumbers: '',
           // ... otros campos
         });
+        this.setContacts(data.contacts);
       });
   }
 
@@ -78,13 +78,13 @@ export class DocumentGeneratorComponent {
 
       // Obtener los valores del formulario
       const formData = this.form.value;
-
+      const contacts_str = formData.contacts.map((contact) => `${contact.name}: ${contact.phone}`).join('; ');
       const data = {
         nombre_completo: formData.completeName,
         CI: formData.CI,
         fecha_nacimiento: spanishFormat(formData.birthdate),
         lugar_nacimiento: formData.birthplace,
-        telefonos_de_contacto: formData.contactNumbers,
+        telefonos_de_contacto: contacts_str,
         nombre_guardian: formData.guardianName,
         CI_guardian: formData.guardianCI,
         relacion: formData.relationship,
@@ -104,6 +104,29 @@ export class DocumentGeneratorComponent {
       a.click();
       document.body.removeChild(a);
     });
+  }
+  setContacts(contacts){
+    this.form.setControl('contacts',this.fb.array([]));
+    const control = <FormArray>this.form.controls['contacts'];
+    for(let contact of contacts){
+      control.push(this.fb.group({
+        name: [contact.name],
+        phone: [contact.phone]
+      }));
+    }
+  }
+  addNewContactField() {
+    const control = <FormArray>this.form.controls['contacts'];
+    control.push(this.fb.group({
+      name: ["", [Validators.required]],
+      phone: ["", [Validators.required]]
+    }));
+  }
+  get contacts() {
+    return this.form.get('contacts') as FormArray;
+  }
+  removeContact(index: number) {
+    this.contacts.removeAt(index);
   }
   goBack() {
     this.location.back();

@@ -156,9 +156,6 @@ export class StudentService {
           student.$id = doc.id;
           students.push(student as Student);
         });
-        console.log("asdfasdf");
-        console.log(students);
-        console.log(code);
         if(students.length > 0)
           observer.next(students[0]);
         else
