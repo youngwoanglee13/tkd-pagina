@@ -52,7 +52,7 @@ export class PaymentsListComponent {
   deletePayment(payment) {
     if (window.confirm('Estás seguro que quieres eliminar el pago de ' + this.student_names[payment.student_id] + ' de ' + 
                         payment.amount + 'Bs ' + 'del ' + payment.date + '?')) { 
-      this.paymentApi.deletePayment(payment.id)
+      this.paymentApi.deletePayment(payment.$id)
       this.toastr.success('Pago Eliminado correctamente!');
     }
   }

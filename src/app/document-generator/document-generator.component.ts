@@ -108,12 +108,13 @@ export class DocumentGeneratorComponent {
   setContacts(contacts){
     this.form.setControl('contacts',this.fb.array([]));
     const control = <FormArray>this.form.controls['contacts'];
-    for(let contact of contacts){
-      control.push(this.fb.group({
-        name: [contact.name],
-        phone: [contact.phone]
-      }));
-    }
+    if(contacts)
+      for(let contact of contacts){
+        control.push(this.fb.group({
+          name: [contact.name],
+          phone: [contact.phone]
+        }));
+      }
   }
   addNewContactField() {
     const control = <FormArray>this.form.controls['contacts'];

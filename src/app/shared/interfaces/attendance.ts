@@ -4,4 +4,7 @@ export interface Attendance {
     training_session_id: string;
     date: string;
     comment: string;
+    startTime: string;
+    endTime: string;
+    dayOfWeek: string;
 }

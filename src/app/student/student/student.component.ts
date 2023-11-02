@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import trainingSession from 'src/app/shared/interfaces/training-session.interface';
 import { TrainingSessionService } from 'src/app/shared/services/training-session.service';
 import { Student } from 'src/app/shared/interfaces/student';
+import { Attendance } from 'src/app/shared/interfaces/attendance';
+import { AttendanceService } from 'src/app/shared/services/attendance.service';
+import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-student',
@@ -28,9 +31,11 @@ export class StudentComponent implements OnInit {
     { label: 'Deuda', value: 'debt_str'}
   ];
   trainingSessions : trainingSession[] = [];
+  attendances: Attendance[] = [];
 
   constructor(
     public studentApi: StudentService,
+    private attendanceApi: AttendanceService,
     private actRoute: ActivatedRoute,
     private trainingSessionService: TrainingSessionService
   ) {}
@@ -64,9 +69,36 @@ export class StudentComponent implements OnInit {
     await this.trainingSessionService.getTrainingSessionsByIDs(this.student.training_session_ids).then(
       (sessions) => {
         this.trainingSessions = sessions as trainingSession[];
+        this.getAttendances();
       }
     );
   }
+  getAttendances() {
+    this.attendanceApi.getAttendancesByStudentId(this.student.$id)
+      .pipe(
+        switchMap((attendances) => {
+          return this.trainingSessionService.getTrainingSessions().pipe(
+            map((trainingSessions) => {
+              return attendances.map(attendance => {
+                const session = trainingSessions.find(s => s.id === attendance.training_session_id);
+                if (session) {
+                  return {
+                    ...attendance,
+                    dayOfWeek: session.dayOfWeek,
+                    startTime: session.startTime,
+                    endTime: session.endTime
+                  };
+                }
+                return attendance;
+              });
+            })
+          );
+        })
+      )
+      .subscribe((enrichedAttendances) => {
+        this.attendances = enrichedAttendances;
+      });
+    }
   withdrawStudent(){
     if (window.confirm('Estás seguro que quieres anular la suscripcion de ' + this.student.firstName + '?')) { 
     this.studentApi.withdrawStudent(this.student);
