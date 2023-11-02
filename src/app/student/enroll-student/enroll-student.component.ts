@@ -55,7 +55,6 @@ export class EnrollStudentComponent implements OnInit  {
   selectOption(event: any){
     const sessionId = event.target.value;
     this.selectedOption=sessionId
-    console.log(this.selectedOption);
   }
   addSession(){
     if(this.selectedOption===""){alert("Elige un horario");return};

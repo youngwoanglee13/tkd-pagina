@@ -69,7 +69,6 @@ export class StudentComponent implements OnInit {
     await this.trainingSessionService.getTrainingSessionsByIDs(this.student.training_session_ids).then(
       (sessions) => {
         this.trainingSessions = sessions as trainingSession[];
-        console.log(this.trainingSessions);
         this.getAttendances();
       }
     );
