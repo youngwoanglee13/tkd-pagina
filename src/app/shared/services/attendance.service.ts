@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, onSnapshot, collectionData, doc, deleteDoc, updateDoc, writeBatch,where,query, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, onSnapshot, collectionData, doc, deleteDoc, updateDoc, writeBatch,where,query, getDocs, orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Attendance } from '../interfaces/attendance';
 
@@ -63,7 +63,12 @@ export class AttendanceService {
   }
   getAttendancesByStudentId(studentId: string): Observable<Attendance[]> {
     const attendanceCollectionRef = collection(this.firestore, 'attendance');
-    const q = query(attendanceCollectionRef, where('student_id', '==', studentId));
+    const q = query(
+        attendanceCollectionRef, 
+        where('student_id', '==', studentId),
+        orderBy('date', 'desc') // 'desc' for decreasing order
+    );
+
     return new Observable(observer => {
       onSnapshot(q, (querySnapshot) => {
         const attendance: Attendance[] = [];
@@ -75,5 +80,6 @@ export class AttendanceService {
         observer.next(attendance);
       });
     });
-  }
+}
+
 }
