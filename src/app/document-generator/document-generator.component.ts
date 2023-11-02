@@ -93,7 +93,8 @@ export class DocumentGeneratorComponent {
       doc.setData(data);
       doc.render();
 
-      const blob = doc.getZip().generate({ type: 'blob' });
+      const uint8array = doc.getZip().generate({ type: 'uint8array' });
+      const blob = new Blob([uint8array], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
       this.downloadLink = URL.createObjectURL(blob);
 
       // Iniciar la descarga inmediatamente
