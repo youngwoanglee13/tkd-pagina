@@ -32,8 +32,10 @@ export class TrainingSessionComponent implements OnInit {
   getTrainingSession(){
     this.trainingSessionService.getTrainingSession(this.sessionId).subscribe(session => {
       this.session = session;
-      if(!this.date) 
-      this.getNextDayOfWeek();
+      if(this.date)
+        this.validateDate(this.date);
+      else
+        this.getNextDayOfWeek();
     });
   }
   getSessionStudents(){
@@ -117,8 +119,8 @@ export class TrainingSessionComponent implements OnInit {
     this.attendanceService.updateAttendances(newAttendancesList,deleteAttendancesList);
     this.getPreviousAttendanceList();
   }
-  validateDate(input: any) {
-    const selectedDate = new Date(input.target.value);
+  validateDate(date: string) {
+    const selectedDate = new Date(date);
     selectedDate.setHours(selectedDate.getHours() + 4); // Ajuste para GMT-0400
     const dayOfWeekIndex = selectedDate.getDay();
     const dayOfWeek = this.daysOfWeek[dayOfWeekIndex];
