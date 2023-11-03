@@ -20,9 +20,9 @@ export class TrainingSessionComponent implements OnInit {
   previousAttendance: Attendance[] = [];
   studentsList : Student[] = [];
   date ="";
-  daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
+  daysOfWeek = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   constructor(private route: ActivatedRoute, private trainingSessionService: TrainingSessionService, private studentService: StudentService, private attendanceService: AttendanceService,private router: Router) {
-    this.route.params.subscribe(params => { this.sessionId = params['id'] });
+    this.route.params.subscribe(params => { this.sessionId = params['id']; this.date = params['date']; });
   }
   ngOnInit(): void {
     this.getTrainingSession();
@@ -32,6 +32,7 @@ export class TrainingSessionComponent implements OnInit {
   getTrainingSession(){
     this.trainingSessionService.getTrainingSession(this.sessionId).subscribe(session => {
       this.session = session;
+      if(!this.date) 
       this.getNextDayOfWeek();
     });
   }
@@ -118,27 +119,28 @@ export class TrainingSessionComponent implements OnInit {
   }
   validateDate(input: any) {
     const selectedDate = new Date(input.target.value);
-    const dayOfWeek = selectedDate.getDay();
-    if (this.daysOfWeek[dayOfWeek] !== this.session.dayOfWeek) {
+    selectedDate.setHours(selectedDate.getHours() + 4); // Ajuste para GMT-0400
+    const dayOfWeekIndex = selectedDate.getDay();
+    const dayOfWeek = this.daysOfWeek[dayOfWeekIndex];
+    if (dayOfWeek !== this.session.dayOfWeek) {
       alert("Selecciona un " + this.session.dayOfWeek);
       this.getNextDayOfWeek();
+      this.selectDate();
+    } else {
+        console.log("Fecha validada correctamente.");
     }
-    this.selectDate();
   }
   getNextDayOfWeek() {
     const today = new Date();
-    const dayOfWeek = this.daysOfWeek.indexOf(this.session.dayOfWeek);
-    const todayDayOfWeek = today.getDay()-1;
-    if (dayOfWeek == todayDayOfWeek) {
-      this.date = today.toISOString().slice(0, 10);
-      return;
+    let dayCounter = 0;
+    while (this.daysOfWeek[today.getDay()] !== this.session.dayOfWeek) {
+        today.setDate(today.getDate() + 1);
+        dayCounter++;
+        if(dayCounter > 7) {
+            console.error("Error looping through days.");
+            break;
+        }
     }
-    let distance = dayOfWeek - todayDayOfWeek;
-    if (distance < 0) {
-      distance += 7;
-    }
-    const nextDay = new Date(today.setDate(today.getDate() + distance));
-    this.date = nextDay.toISOString().slice(0, 10);
+    this.date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   }
-  
 }

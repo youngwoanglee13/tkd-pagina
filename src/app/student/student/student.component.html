@@ -74,7 +74,7 @@
               <td>{{ attendance.date }}</td>
               <td>{{ attendance.dayOfWeek }}</td>
               <td>
-                <a routerLink="/session/{{ attendance.training_session_id }}">
+                <a routerLink="/session/{{ attendance.training_session_id }}/{{attendance.date}}">
                   {{attendance.startTime.slice(0, 2)}}:{{attendance.startTime.slice(2, 4)}} -
                   {{attendance.endTime.slice(0, 2)}}:{{attendance.endTime.slice(2, 4)}}
                 </a>
