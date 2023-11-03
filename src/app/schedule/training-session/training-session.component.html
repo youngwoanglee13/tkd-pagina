@@ -13,9 +13,9 @@
   <hr>
   <div class="input-group">
     <span class="input-group-text" [style.width]="'170px'">Fecha</span>
-    <input type="date"  class="form-control" (change)="validateDate($event)" [(ngModel)]="date">
-    <!-- (change)="selectDate()" -->
+    <input type="date" class="form-control" (change)="validateDate(date)" [(ngModel)]="date">
   </div>
+
   <hr>
   <h5 class="text-center" >
     <div *ngIf="previousAttendance.length==0">
