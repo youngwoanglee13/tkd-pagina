@@ -11,12 +11,11 @@ export class PaymentService {
 
   constructor(private firestore: Firestore) { }
   addPayment(payment: Payment) {
-    payment.date = today();
     const paymentCollectionRef = collection(this.firestore, 'payments');
     return addDoc(paymentCollectionRef, payment);
   }
   // Get payments between dates
-  getPayments(startDate: string = "0000-00-00", endDate: string = today()): Observable<Payment[]> {
+  getPayments(startDate: string = "0000-00-00"): Observable<Payment[]> {
     const q = collection(this.firestore, "payments");
     return new Observable((observer) => {
       onSnapshot(q, (querySnapshot) => {
@@ -24,7 +23,7 @@ export class PaymentService {
         querySnapshot.forEach((doc) => {
           const payment = doc.data();
           payment.$id = doc.id;
-          if (payment.date >= startDate && payment.date <= endDate) {
+          if (payment.date >= startDate) {
             payments.push(payment as Payment);
           }
         });
@@ -34,14 +33,14 @@ export class PaymentService {
     });
   }
   
-  async getPaymentsArray(startDate: string, endDate: string, student_id: string): Promise<Payment[]> {
+  async getPaymentsArray(startDate: string, student_id: string): Promise<Payment[]> {
     const q = collection(this.firestore, 'payments');
     const querySnapshot = await getDocs(q);
     const payments: Payment[] = [];
     await querySnapshot.forEach((doc) => {
       const payment = doc.data();
       payment.$id = doc.id;
-      if (payment.date >= startDate && payment.date <= endDate && payment.student_id == student_id) {
+      if (payment.date >= startDate && payment.student_id == student_id) {
         payments.push(payment as Payment);
       }
     });

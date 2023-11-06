@@ -73,7 +73,7 @@ export class StudentService {
 
         students.forEach((student) => {
           if (student.is_enrolled && !student.is_deleted) {
-            this.paymentApi.getPaymentsArray(student.enrollment_date, today(), student.$id).then((payments) => {
+            this.paymentApi.getPaymentsArray(student.enrollment_date, student.$id).then((payments) => {
               student.debt = this.calculateDebt(student, payments);
               student.debt_str = this.getDebtString(student);
               if (student.debt > 0) {
@@ -118,7 +118,7 @@ export class StudentService {
   }
   getDebt(student: Student): Observable<any> {
     return new Observable((observer) => {
-      this.paymentApi.getPaymentsArray(student.enrollment_date, today(), student.$id).then((payments) => {
+      this.paymentApi.getPaymentsArray(student.enrollment_date, student.$id).then((payments) => {
         let debt = this.calculateDebt(student, payments);
         student.debt = debt;
         observer.next({'val': debt, 'str': this.getDebtString(student)});
