@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PaymentService } from 'src/app/shared/services/payment.service';
 import { StudentService } from 'src/app/shared/services/student.service';
 import { Student } from 'src/app/shared/interfaces/student';
+import { today } from 'src/app/shared/helpers/date_helper';
 
 @Component({
   selector: 'app-make-payment',
@@ -34,6 +35,12 @@ export class MakePaymentComponent {
       .getStudent(id)
       .subscribe((data) => {
         this.student = data;
+        if(!this.student.is_enrolled) {
+          this.toastr.error(
+            'El estudiante no está inscrito'
+          );
+          this.goBack();
+        }
         this.studenForm();
         this.studentApi.getDebt(this.student).subscribe((debt) => {
           this.student.debt_str = debt['str'];
@@ -61,6 +68,10 @@ export class MakePaymentComponent {
                         this.student.firstName + ' ' + this.student.lastName + '?')) { 
       let payment = this.paymentForm.value;
       payment.student_id = this.student.$id;
+      payment.date = today();
+      if(this.student.enrollment_date > payment.date) {
+        payment.date = this.student.enrollment_date;
+      }
       this.paymentApi.addPayment(this.paymentForm.value).then((res) => {
         this.toastr.success(
           'Pago Realizado!'
