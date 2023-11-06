@@ -26,8 +26,6 @@ export class TrainingSessionComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getTrainingSession();
-    this.getSessionStudents();
-    this.getPreviousAttendanceList();
   }
   getTrainingSession(){
     this.trainingSessionService.getTrainingSession(this.sessionId).subscribe(session => {
@@ -36,6 +34,7 @@ export class TrainingSessionComponent implements OnInit {
         this.validateDate(this.date);
       else
         this.getNextDayOfWeek();
+        this.getSessionStudents();
     });
   }
   getSessionStudents(){
@@ -46,6 +45,7 @@ export class TrainingSessionComponent implements OnInit {
           student.debt_str = debt['str'];
         });
       }
+      this.getPreviousAttendanceList();
     });
   }
   getPreviousAttendanceList(){
