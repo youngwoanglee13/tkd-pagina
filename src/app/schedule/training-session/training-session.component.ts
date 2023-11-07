@@ -127,10 +127,10 @@ export class TrainingSessionComponent implements OnInit {
     if (dayOfWeek !== this.session.dayOfWeek) {
       alert("Selecciona un " + this.session.dayOfWeek);
       this.getNextDayOfWeek();
-      this.selectDate();
     } else {
         console.log("Fecha validada correctamente.");
     }
+    this.selectDate();
   }
   getNextDayOfWeek() {
     const today = new Date();

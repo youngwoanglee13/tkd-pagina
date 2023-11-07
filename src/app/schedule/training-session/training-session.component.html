@@ -51,7 +51,10 @@
           </tbody>
         </table>
       <div class="container d-flex justify-content-center">
-          <button class="btn btn-success " (click)="saveAttendance()" type="button">Guardar Asistencia</button>
+          <button class="btn btn-success " (click)="saveAttendance()" type="button">
+            <div *ngIf="this.previousStudentIds.length>0">Actualizar Asistencia</div>
+            <div *ngIf="this.previousStudentIds.length==0">Guardar Asistencia</div>
+          </button>
       </div>
   </div>
   
