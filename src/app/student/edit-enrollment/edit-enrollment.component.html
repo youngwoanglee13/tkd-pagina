@@ -1,25 +1,23 @@
 <app-navbar></app-navbar>
-<div class="container" *ngIf="student && !student.is_enrolled">
+<div class="container" *ngIf="student && student.is_enrolled">
     <hr>
     <div class="pt-2 pb-2 mt-2">
-        <h2 class="text-center">Inscribir a {{student.firstName}} {{student.lastName}}</h2>
+        <h2 class="text-center">Editar horarios de {{student.firstName}} {{student.lastName}}</h2>
     </div>
     <hr>
     <div class="input-group">
         <label class="input-group-text" for="inputSessions"  [style.width]="'170px'">Sesiones por semana</label>
-        <select class="form-select" id="inputSessions" (change)="setSessionsPerWeek($event)">
-          <option value="2" selected>2</option>
-          <option value="3">3</option>
-          <option value="5">5</option>
+        <select class="form-select" id="inputSessions" disabled>
+          <option selected>{{weeklySessionCount}}</option>
         </select>
     </div>
     <div class="input-group">
         <span class="input-group-text" [style.width]="'170px'">Fecha de inscripcion</span>
-        <input type="date" class="form-control" [(ngModel)]="date">
+        <input type="date" class="form-control" [(ngModel)]="date" disabled>
     </div>
     <div class="input-group mb-3">
-        <span class="input-group-text" [style.width]="'170px'">Mensualidad</span>
-        <input type="number" class="form-control" [(ngModel)]="monthlyPayment">
+        <span class="input-group-text" [style.width]="'170px'" disabled>Mensualidad</span>
+        <input type="number" class="form-control" [(ngModel)]="monthlyPayment" disabled>
     </div>
     <hr>
     <div class="input-group mb-4" >
@@ -55,7 +53,7 @@
             </div>
         </div>
         <div class="container mt-4 text-center">
-            <button type="button " class="btn btn-success" (click)="enrollStudent()">Inscribir</button>
+            <button type="button " class="btn btn-success" (click)="enrollStudent()">Guardar cambios</button>
         </div>  
     </div>
 </div>

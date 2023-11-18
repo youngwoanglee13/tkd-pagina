@@ -23,6 +23,7 @@ import { DocumentGeneratorComponent } from './document-generator/document-genera
 import { DebtorsListComponent } from './payments-and-debts/debtors-list/debtors-list.component';
 import { PaymentsListComponent } from './payments-and-debts/payments-list/payments-list.component';
 import { MakePaymentComponent } from './payments-and-debts/make-payment/make-payment.component';
+import { EditEnrollmentComponent } from './student/edit-enrollment/edit-enrollment.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MakePaymentComponent } from './payments-and-debts/make-payment/make-pay
     DebtorsListComponent,
     PaymentsListComponent,
     MakePaymentComponent,
-    DocumentGeneratorComponent
+    DocumentGeneratorComponent,
+    EditEnrollmentComponent
   ],
   imports: [  
     BrowserModule,
