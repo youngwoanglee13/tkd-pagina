@@ -13,6 +13,7 @@ import { DebtorsListComponent } from './payments-and-debts/debtors-list/debtors-
 import { PaymentsListComponent } from './payments-and-debts/payments-list/payments-list.component';
 import { MakePaymentComponent } from './payments-and-debts/make-payment/make-payment.component';
 import { DocumentGeneratorComponent } from './document-generator/document-generator.component';
+import { EditEnrollmentComponent } from './student/edit-enrollment/edit-enrollment.component';
 
 const routes: Routes = [
   { path : '', redirectTo: '/signin', pathMatch: 'full' },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'view-payments', component: PaymentsListComponent,canActivate: [guardGuard] },
   { path: 'make-payment/:id', component: MakePaymentComponent,canActivate: [guardGuard] },
   { path: 'generate-document/:id', component: DocumentGeneratorComponent,canActivate: [guardGuard] },
+  { path: 'edit-enrollment/:id', component: EditEnrollmentComponent,canActivate: [guardGuard] },
 ];
 
 @NgModule({
