@@ -29,7 +29,11 @@ export function today(): string {
 }
 
 export function spanishFormat(date: string): string {
-    const dateObject = new Date(date);
+    const parts = date.split('-');
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    const dateObject = new Date(year, month, day);
     const dateFormatted = format(dateObject, 'dd/MM/yyyy');
     return dateFormatted;
 }
