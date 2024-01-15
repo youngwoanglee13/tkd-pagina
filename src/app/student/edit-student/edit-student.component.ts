@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EditStudentComponent implements OnInit {
   public editForm: FormGroup;
-  private data_fields: String[] = ['firstName', 'middleName', 'lastName', 'secondLastName', 'email', 'birthdate', 'gender', 'grade', 'CI'];
+  private data_fields: String[] = ['firstName', 'middleName', 'lastName', 'secondLastName', 'alias', 'email', 'birthdate', 'gender', 'grade', 'CI'];
   private  id: string;
   constructor(
     public studentApi: StudentService,
@@ -32,6 +32,9 @@ export class EditStudentComponent implements OnInit {
           if (data.hasOwnProperty(key as PropertyKey)) {
             data_for_form[key as PropertyKey] = data[key as PropertyKey];
           }
+          else {
+            data_for_form[key as PropertyKey] = '';
+          }
         }
         this.editForm.setValue(data_for_form);
         this.setContacts(data.contacts);
@@ -43,6 +46,7 @@ export class EditStudentComponent implements OnInit {
       middleName: ['', [Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       secondLastName: ['', [Validators.minLength(2)]],
+      alias: ['', [Validators.minLength(2)]],
       email: [
         '',
         [

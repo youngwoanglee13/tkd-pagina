@@ -27,6 +27,7 @@ export class AddStudentComponent implements OnInit {
       middleName: ['', [Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       secondLastName: ['', [Validators.minLength(2)]],
+      alias: ['', [Validators.minLength(2)]],
       email: [
         '',
         [

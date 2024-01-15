@@ -3,6 +3,7 @@ import { Student } from '../../shared/interfaces/student';
 import { ToastrService } from 'ngx-toastr';
 import { StudentService } from '../../shared/services/student.service';
 import { calculateAge } from 'src/app/shared/helpers/date_helper';
+import { getAlias } from 'src/app/shared/helpers/student_helper';
 
 @Component({
   selector: 'app-debtors-list',
@@ -15,11 +16,13 @@ export class DebtorsListComponent  implements OnInit {
   myStudents: Student[];
   searchTerm: string = '';
   calculateAge: (birthdate: string) => number;
+  getAlias: (student: Student) => string;
   constructor(
     public studentApi: StudentService,
     public toastr: ToastrService
     ){ 
       this.calculateAge = calculateAge;
+      this.getAlias = getAlias;
     }
 
   ngOnInit() {
