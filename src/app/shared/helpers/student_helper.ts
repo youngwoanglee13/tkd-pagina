@@ -8,4 +8,5 @@ export function getAlias(student: Student): string {
     const lastName = student.lastName;
     const secondLastName = student.secondLastName;
     const alias = `${firstName} ${middleName} ${lastName} ${secondLastName}`;
+    return alias;
 }
