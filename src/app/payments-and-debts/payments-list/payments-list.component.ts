@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Payment } from '../../shared/interfaces/payment';
 import { PaymentService } from '../../shared/services/payment.service';
 import { ToastrService } from 'ngx-toastr';
-import { Student } from '../../shared/interfaces/student';
 import { StudentService } from '../../shared/services/student.service';
+import { Student } from '../../shared/interfaces/student';
+import { getAlias } from 'src/app/shared/helpers/student_helper';
 
 @Component({
   selector: 'app-payments-list',
@@ -16,7 +17,6 @@ export class PaymentsListComponent {
   myPayments: Payment[];
   searchTerm: string = '';
   student_names: {};
-  calculateAge: (birthdate: string) => number;
   constructor(
     public paymentApi: PaymentService,
     public studentApi: StudentService,
@@ -39,7 +39,7 @@ export class PaymentsListComponent {
       (students) => {
         this.student_names = {};
         for (let student of students) {
-          this.student_names[student.$id] = student.firstName + ' ' + student.lastName;
+          this.student_names[student.$id] = getAlias(student);
         }
         for (let payment of this.myPayments) {
           payment.student_name = this.student_names[payment.student_id];

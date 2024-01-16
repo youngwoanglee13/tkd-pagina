@@ -7,6 +7,7 @@ import { Student } from 'src/app/shared/interfaces/student';
 import { Attendance } from 'src/app/shared/interfaces/attendance';
 import { AttendanceService } from 'src/app/shared/services/attendance.service';
 import { switchMap, map } from 'rxjs/operators';
+import { getAlias } from 'src/app/shared/helpers/student_helper';
 
 @Component({
   selector: 'app-student',
@@ -17,6 +18,7 @@ export class StudentComponent implements OnInit {
   public student: Student;
   public fields = [
     { label: 'Nombre Completo', value: 'completeName' },
+    { label: 'Alias', value: 'alias'},
     { label: 'Código de Estudiante', value: 'code' },
     { label: 'Email', value: 'email' },
     { label: 'Fecha de Nacimiento', value: 'birthdate' },
@@ -46,6 +48,7 @@ export class StudentComponent implements OnInit {
       .getStudent(id)
       .subscribe((data) => {
         this.student = data;
+        this.student.alias = getAlias(this.student);
         this.student.completeName = this.studentApi.getCompleteName(this.student);
         this.studentApi.getDebt(this.student).subscribe((debt) => {
           this.student.debt_str = debt['str'];

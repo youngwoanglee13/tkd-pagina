@@ -173,6 +173,7 @@ export class StudentService {
         middleName: student.middleName,
         lastName: student.lastName,
         secondLastName: student.secondLastName,
+        alias: student.alias,
         email: student.email,
         birthdate: student.birthdate,
         gender: student.gender,

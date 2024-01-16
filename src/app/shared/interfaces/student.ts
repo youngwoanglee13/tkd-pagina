@@ -5,6 +5,7 @@ export interface Student {
     middleName: string;
     lastName: string;
     secondLastName: string;
+    alias: string;
     email: string;
     contacts: {name: string, phone: number}[];
     birthdate: string;

@@ -32,7 +32,7 @@
               let i = index
             "
           >
-            <td><a routerLink="/view-students/{{ student.$id }}">{{ student.firstName }} {{ student.lastName }}</a></td>
+            <td><a routerLink="/view-students/{{ student.$id }}">{{ getAlias(student) }}</a></td>
             <td>{{ student.grade }}</td>
             <td>{{ calculateAge(student.birthdate) }}</td>
             <td>{{ student.debt_str }}</td>

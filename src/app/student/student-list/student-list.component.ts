@@ -4,6 +4,7 @@ import { Student } from '../../shared/interfaces/student';
 import { ToastrService } from 'ngx-toastr';
 import { calculateAge } from 'src/app/shared/helpers/date_helper';
 import { Router } from '@angular/router';
+import { getAlias } from 'src/app/shared/helpers/student_helper';
 
 @Component({
   selector: 'app-student-list',
@@ -17,12 +18,14 @@ export class StudentListComponent implements OnInit {
   searchTerm: string = '';
   accessCode: string = '';
   calculateAge: (birthdate: string) => number;
+  getAlias: (student: Student) => string;
   constructor(
     public studentApi: StudentService,
     public toastr: ToastrService,
     private router: Router
     ){ 
       this.calculateAge = calculateAge;
+      this.getAlias = getAlias;
     }
 
   ngOnInit() {
