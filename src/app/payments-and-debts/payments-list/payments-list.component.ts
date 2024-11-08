@@ -16,15 +16,19 @@ export class PaymentsListComponent {
   payments: Payment[];
   myPayments: Payment[];
   searchTerm: string = '';
+  inputDate: string = '';
   student_names: {};
+  
   constructor(
     public paymentApi: PaymentService,
     public studentApi: StudentService,
     public toastr: ToastrService
     ){}
+
   ngOnInit() {
     this.getPayments();
   }
+
   async getPayments() {
     await this.paymentApi.getPayments().subscribe(
       (payments) => {
@@ -34,6 +38,7 @@ export class PaymentsListComponent {
       error => console.log(error)
     );
   }
+
   async getStudents() {
     await this.studentApi.getStudents().subscribe(
       (students) => {
@@ -49,6 +54,7 @@ export class PaymentsListComponent {
       error => console.log(error)
     );
   }
+
   deletePayment(payment) {
     if (window.confirm('Estás seguro que quieres eliminar el pago de ' + this.student_names[payment.student_id] + ' de ' + 
                         payment.amount + 'Bs ' + 'del ' + payment.date + '?')) { 
@@ -56,22 +62,38 @@ export class PaymentsListComponent {
       this.toastr.success('Pago Eliminado correctamente!');
     }
   }
+
   searchStudents() {
-    // Filter the students based on the search term
-    if (this.searchTerm.trim() === '') {
-      // If the search term is empty, show all students
-      this.reset();
-    } else {
-      this.payments = this.myPayments.filter(payment => {
-        // You can adjust the condition based on your search criteria
+    this.resetList();
+    this.filterByName();
+    this.filterByDate();
+  }
+
+  filterByName(){
+    if(this.searchTerm != '') {
+      this.payments = this.payments.filter(payment => {
         return payment.student_name.toLowerCase().includes(this.searchTerm.toLowerCase());
       });
     }
   }
 
-  reset()
+  filterByDate(){
+    if(this.inputDate != '') {
+      this.payments = this.payments.filter(payment => {
+        return payment.date.includes(this.inputDate);
+      });
+    }
+  }
+
+  resetFilters()
   {
     this.searchTerm = '';
+    this.inputDate = '';
+    this.resetList();
+  }
+
+  resetList(){
+    this.p=1;
     this.payments = this.myPayments;
   }
 }
