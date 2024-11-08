@@ -18,14 +18,17 @@ export class PaymentsListComponent {
   searchTerm: string = '';
   inputDate: string = '';
   student_names: {};
+  
   constructor(
     public paymentApi: PaymentService,
     public studentApi: StudentService,
     public toastr: ToastrService
     ){}
+
   ngOnInit() {
     this.getPayments();
   }
+
   async getPayments() {
     await this.paymentApi.getPayments().subscribe(
       (payments) => {
@@ -35,6 +38,7 @@ export class PaymentsListComponent {
       error => console.log(error)
     );
   }
+
   async getStudents() {
     await this.studentApi.getStudents().subscribe(
       (students) => {
@@ -50,6 +54,7 @@ export class PaymentsListComponent {
       error => console.log(error)
     );
   }
+
   deletePayment(payment) {
     if (window.confirm('Estás seguro que quieres eliminar el pago de ' + this.student_names[payment.student_id] + ' de ' + 
                         payment.amount + 'Bs ' + 'del ' + payment.date + '?')) { 
@@ -57,27 +62,38 @@ export class PaymentsListComponent {
       this.toastr.success('Pago Eliminado correctamente!');
     }
   }
+
   searchStudents() {
-    this.p=1;
-      if (this.searchTerm.trim() != '' && this.inputDate.trim() != '') {
-        this.payments = this.myPayments.filter(payment => {
-          return payment.student_name.toLowerCase().includes(this.searchTerm.toLowerCase()) && payment.date.includes(this.inputDate);
-        });
-      } else if (this.searchTerm.trim() != '') {
-        this.payments = this.myPayments.filter(payment => {
-          return payment.student_name.toLowerCase().includes(this.searchTerm.toLowerCase());
-        });
-      } else if (this.inputDate.trim() != '') {
-        this.payments = this.myPayments.filter(payment => {
-          return payment.date.includes(this.inputDate);
-        });
-      } else this.reset();
+    this.resetList();
+    this.filterByName();
+    this.filterByDate();
   }
 
-  reset()
+  filterByName(){
+    if(this.searchTerm != '') {
+      this.payments = this.payments.filter(payment => {
+        return payment.student_name.toLowerCase().includes(this.searchTerm.toLowerCase());
+      });
+    }
+  }
+
+  filterByDate(){
+    if(this.inputDate != '') {
+      this.payments = this.payments.filter(payment => {
+        return payment.date.includes(this.inputDate);
+      });
+    }
+  }
+
+  resetFilters()
   {
     this.searchTerm = '';
     this.inputDate = '';
+    this.resetList();
+  }
+
+  resetList(){
+    this.p=1;
     this.payments = this.myPayments;
   }
 }
