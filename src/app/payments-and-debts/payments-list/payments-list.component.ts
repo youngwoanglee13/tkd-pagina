@@ -16,6 +16,7 @@ export class PaymentsListComponent {
   payments: Payment[];
   myPayments: Payment[];
   searchTerm: string = '';
+  inputDate: string = '';
   student_names: {};
   constructor(
     public paymentApi: PaymentService,
@@ -57,21 +58,26 @@ export class PaymentsListComponent {
     }
   }
   searchStudents() {
-    // Filter the students based on the search term
-    if (this.searchTerm.trim() === '') {
-      // If the search term is empty, show all students
-      this.reset();
-    } else {
-      this.payments = this.myPayments.filter(payment => {
-        // You can adjust the condition based on your search criteria
-        return payment.student_name.toLowerCase().includes(this.searchTerm.toLowerCase());
-      });
-    }
+    this.p=1;
+      if (this.searchTerm.trim() != '' && this.inputDate.trim() != '') {
+        this.payments = this.myPayments.filter(payment => {
+          return payment.student_name.toLowerCase().includes(this.searchTerm.toLowerCase()) && payment.date.includes(this.inputDate);
+        });
+      } else if (this.searchTerm.trim() != '') {
+        this.payments = this.myPayments.filter(payment => {
+          return payment.student_name.toLowerCase().includes(this.searchTerm.toLowerCase());
+        });
+      } else if (this.inputDate.trim() != '') {
+        this.payments = this.myPayments.filter(payment => {
+          return payment.date.includes(this.inputDate);
+        });
+      } else this.reset();
   }
 
   reset()
   {
     this.searchTerm = '';
+    this.inputDate = '';
     this.payments = this.myPayments;
   }
 }
