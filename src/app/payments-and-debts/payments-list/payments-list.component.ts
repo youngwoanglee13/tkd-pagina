@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StudentService } from '../../shared/services/student.service';
 import { Student } from '../../shared/interfaces/student';
 import { getAlias } from 'src/app/shared/helpers/student_helper';
+import { PaymentsDocxGeneratorService } from 'src/app/shared/services/payments-docx-generator.service';
 
 @Component({
   selector: 'app-payments-list',
@@ -22,7 +23,8 @@ export class PaymentsListComponent {
   constructor(
     public paymentApi: PaymentService,
     public studentApi: StudentService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    public docxGenerator: PaymentsDocxGeneratorService
     ){}
 
   ngOnInit() {
@@ -95,5 +97,12 @@ export class PaymentsListComponent {
   resetList(){
     this.p=1;
     this.payments = this.myPayments;
+  }
+
+  printPayments() {
+    this.searchTerm = '';
+    this.resetList();
+    this.filterByDate();
+    this.docxGenerator.generateDocx(this.payments, this.inputDate);
   }
 }
