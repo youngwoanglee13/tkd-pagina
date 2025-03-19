@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Payment } from '../interfaces/payment';
-import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, ShadingType } from 'docx';
 import { saveAs } from 'file-saver';
 import { spanishFormat } from '../helpers/date_helper';
 
@@ -37,31 +37,66 @@ export class PaymentsDocxGeneratorService {
     });
     // Fecha de generación del documento
     const genaratedDate = new Paragraph({
-      children: [new TextRun({ text: `Actualizado hasta el ${downloadedDate}`, size: 14 })],
+      children: [new TextRun({ text: `Actualizado hasta el ${downloadedDate}`, size: 15 })],
     });
 
     // Cabecera de la tabla
     const tableHeader = new TableRow({
-      children: ['Nombre', 'Monto Bs.', 'Fecha (Dia,Mes,Año)', 'Decripcion'].map((text) =>
+      children: [
         new TableCell({
-          children: [new Paragraph({ children: [new TextRun({ text, bold: true })] })],
-          width: { size: 25, type: WidthType.PERCENTAGE },
-        })
-      ),
+          children: [new Paragraph({ indent: { left: 100 }, children: [new TextRun({ text: "Nombre", bold: true })],
+          }),],
+          width: { size: 38, type: WidthType.PERCENTAGE },
+        }),
+        new TableCell({
+          children: [new Paragraph({ indent: { left: 100 }, children: [new TextRun({ text: "Bs.", bold: true })] })],
+          width: { size: 6, type: WidthType.PERCENTAGE },
+        }),
+        new TableCell({
+          children: [new Paragraph({ indent: { left: 100 }, children: [new TextRun({ text: "Fecha", bold: true })] })],
+          width: { size: 16, type: WidthType.PERCENTAGE },
+        }),
+        new TableCell({
+          children: [new Paragraph({ indent: { left: 100 }, children: [new TextRun({ text: "Nota", bold: true })] })],
+          width: { size: 40, type: WidthType.PERCENTAGE },
+        }),
+      ],
     });
 
     // Filas con los datos de los pagos
-    const tableRows = payments.map(
-      (payment) =>
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph(payment.student_name)] }),
-            new TableCell({ children: [new Paragraph(payment.amount.toString())] }),
-            new TableCell({ children: [new Paragraph(spanishFormat(payment.date))] }),
-            new TableCell({ children: [new Paragraph(payment.comment)] }),
-          ],
-        })
-    );
+    const tableRows = payments.map((payment, index) => {
+      const isEven = index % 2 === 0;
+
+      return new TableRow({
+        height: { value: 400, rule: "atLeast" }, // Aumenta la altura de las filas
+        children: [
+          new TableCell({ 
+            children: [new Paragraph({ text: payment.student_name, indent: { left: 100 } })], 
+            width: { size: 38, type: WidthType.PERCENTAGE },
+            verticalAlign: "center", // Centrado vertical
+            shading: { type: ShadingType.CLEAR, fill: isEven ? "F8F4F4" : "FFFFFF" },
+          }),
+          new TableCell({ 
+            children: [new Paragraph({ text: payment.amount.toString(), indent: { left: 100 } })], 
+            width: { size: 6, type: WidthType.PERCENTAGE },
+            verticalAlign: "center",
+            shading: { type: ShadingType.CLEAR, fill: isEven ? "F8F4F4" : "FFFFFF" },
+          }),
+          new TableCell({ 
+            children: [new Paragraph({ text: spanishFormat(payment.date), indent: { left: 100 } })], 
+            width: { size: 16, type: WidthType.PERCENTAGE },
+            verticalAlign: "center",
+            shading: { type: ShadingType.CLEAR, fill: isEven ? "F8F4F4" : "FFFFFF" },
+          }),
+          new TableCell({ 
+            children: [new Paragraph({ text: payment.comment, indent: { left: 100 } })], 
+            width: { size: 40, type: WidthType.PERCENTAGE },
+            verticalAlign: "center",
+            shading: { type: ShadingType.CLEAR, fill: isEven ? "F8F4F4" : "FFFFFF" },
+          }),
+        ],
+      });
+    });
 
     // Crear la tabla
     const table = new Table({
