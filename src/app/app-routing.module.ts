@@ -14,6 +14,7 @@ import { PaymentsListComponent } from './payments-and-debts/payments-list/paymen
 import { MakePaymentComponent } from './payments-and-debts/make-payment/make-payment.component';
 import { DocumentGeneratorComponent } from './document-generator/document-generator.component';
 import { EditEnrollmentComponent } from './student/edit-enrollment/edit-enrollment.component';
+import { MakeExtraPaymentComponent } from './payments-and-debts/make-extra-payment/make-extra-payment.component';
 
 const routes: Routes = [
   { path : '', redirectTo: '/signin', pathMatch: 'full' },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'make-payment/:id', component: MakePaymentComponent,canActivate: [guardGuard] },
   { path: 'generate-document/:id', component: DocumentGeneratorComponent,canActivate: [guardGuard] },
   { path: 'edit-enrollment/:id', component: EditEnrollmentComponent,canActivate: [guardGuard] },
+  { path: 'make-extra-payment', component: MakeExtraPaymentComponent, canActivate: [guardGuard] },
 ];
 
 @NgModule({

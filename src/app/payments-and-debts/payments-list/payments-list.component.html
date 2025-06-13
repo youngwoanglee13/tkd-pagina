@@ -46,8 +46,26 @@
               let i = index
             "
           >
-            <td><a routerLink="/view-students/{{ payment.student_id }}">{{ payment.student_name }}</a></td>
-            <td>{{ payment.amount }}</td>
+            <td>
+              <ng-container *ngIf="!payment.is_extra_payment; else extraPayment">
+                <a routerLink="/view-students/{{ payment.student_id }}">{{ payment.student_name }}</a>
+              </ng-container>
+              <ng-template #extraPayment>
+                <span>{{ payment.student_name }} *</span>
+              </ng-template>
+            </td>
+            <td>
+              <span>{{ payment.amount + " "}}</span>
+              <span *ngIf="payment.is_extra_payment" >
+                <span *ngIf="payment.payment_method === 'Cash'">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="21px" viewBox="0 -960 960 960" width="21px" fill="#78A75A"><path d="M552-432q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Zm-288 96q-29.7 0-50.85-21.17Q192-378.33 192-408.06v-288.22Q192-726 213.15-747T264-768h576q29.7 0 50.85 21.17Q912-725.67 912-695.94v288.22Q912-378 890.85-357T840-336H264Zm72-72h432q0-30 21.15-51.12 21.15-21.11 50.85-21.11V-624q-29.7 0-50.85-21.15Q768-666.3 768-696H336q0 30-21.15 51.12-21.15 21.11-50.85 21.11V-480q29.7 0 50.85 21.15Q336-437.7 336-408Zm456 216H120q-29.7 0-50.85-21.15Q48-234.3 48-264v-408h72v408h672v72ZM264-408v-288 288Z"/></svg>
+                </span>
+                <span *ngIf="payment.payment_method === 'BankTransfer'">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="21px" viewBox="0 -960 960 960" width="21px" fill="#1f1f1f"><path d="M80-680v-200h200v80H160v120H80Zm0 600v-200h80v120h120v80H80Zm600 0v-80h120v-120h80v200H680Zm120-600v-120H680v-80h200v200h-80ZM700-260h60v60h-60v-60Zm0-120h60v60h-60v-60Zm-60 60h60v60h-60v-60Zm-60 60h60v60h-60v-60Zm-60-60h60v60h-60v-60Zm120-120h60v60h-60v-60Zm-60 60h60v60h-60v-60Zm-60-60h60v60h-60v-60Zm240-320v240H520v-240h240ZM440-440v240H200v-240h240Zm0-320v240H200v-240h240Zm-60 500v-120H260v120h120Zm0-320v-120H260v120h120Zm320 0v-120H580v120h120Z"/></svg>
+                </span>
+              </span>
+
+            </td>
             <td >{{ payment.date }}</td>
             <td>{{ payment.comment }}</td>
             <td class="text-center action-block">

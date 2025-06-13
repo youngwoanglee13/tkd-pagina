@@ -24,6 +24,7 @@ import { DebtorsListComponent } from './payments-and-debts/debtors-list/debtors-
 import { PaymentsListComponent } from './payments-and-debts/payments-list/payments-list.component';
 import { MakePaymentComponent } from './payments-and-debts/make-payment/make-payment.component';
 import { EditEnrollmentComponent } from './student/edit-enrollment/edit-enrollment.component';
+import { MakeExtraPaymentComponent } from './payments-and-debts/make-extra-payment/make-extra-payment.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { EditEnrollmentComponent } from './student/edit-enrollment/edit-enrollme
     PaymentsListComponent,
     MakePaymentComponent,
     DocumentGeneratorComponent,
-    EditEnrollmentComponent
+    EditEnrollmentComponent,
+    MakeExtraPaymentComponent
   ],
   imports: [  
     BrowserModule,
